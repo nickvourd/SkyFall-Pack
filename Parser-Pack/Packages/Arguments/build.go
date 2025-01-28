@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// buildArgument represents the 'free' command in the CLI.
+// buildArgument represents the 'build' command in the CLI.
 var buildArgument = &cobra.Command{
 	// Use defines how the command should be called.
 	Use:          "build",
