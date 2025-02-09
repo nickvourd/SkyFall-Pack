@@ -1,6 +1,9 @@
 package Templates
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Declare variables
 var wranglerJson string
@@ -91,6 +94,9 @@ async function handleRequest(event) {
 
 // BuildNginxConf function
 func BuildNginxConf(customHeader string, customSecret string, port string, teamserver string) string {
+	// Replace all dashes of the string with underscores
+	customHeader2 := strings.ReplaceAll(customHeader, "-", "_")
+
 	nginxConf += fmt.Sprintf(`server {
     listen 443 ssl;
     server_name %s;
@@ -99,17 +105,17 @@ func BuildNginxConf(customHeader string, customSecret string, port string, teams
     ssl_protocols TLSv1.3;
     
     location / {
-        if ($http_custom_header != "%s") {
+        if ($http_%s != "%s") {
             return 403;
         }
         proxy_pass https://localhost:%s;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header %s $http_custom_header;
+        proxy_set_header %s $http_%s;
     }
 }
   
-  `, teamserver, teamserver, teamserver, customSecret, port, customHeader)
+  `, teamserver, teamserver, teamserver, strings.ToLower(customHeader2), customSecret, port, customHeader, strings.ToLower(customHeader2))
 
 	return nginxConf
 }
