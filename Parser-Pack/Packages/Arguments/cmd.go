@@ -102,7 +102,7 @@ func StartWorkerMan(cmd *cobra.Command, args []string) error {
 	// Obtain flag
 	versionFlag, _ := cmd.Flags().GetBool("version")
 
-	// Call function named ShowVersion
+	// Call function named ShowVersion/
 	ShowVersion(versionFlag)
 
 	return nil
