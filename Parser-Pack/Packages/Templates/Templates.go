@@ -5,6 +5,7 @@ import "fmt"
 // Declare variables
 var wranglerJson string
 var indexJs string
+var nginxConf string
 
 // BuildWranglerJSON function
 func BuildWranglerJSON(teamserver string, worker string, workername string, customSecret string, header string, ts string, endpoint string, date string) string {
@@ -86,4 +87,29 @@ async function handleRequest(event) {
 }`, customHeader, endpoint, ts, header)
 
 	return indexJs
+}
+
+// BuildNginxConf function
+func BuildNginxConf(customHeader string, customSecret string, port string, teamserver string) string {
+	nginxConf += fmt.Sprintf(`server {
+    listen 443 ssl;
+    server_name %s;
+    ssl_certificate /etc/letsencrypt/live/%s/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/%s/privkey.pem;
+    ssl_protocols TLSv1.3;
+    
+    location / {
+        if ($http_custom_header != "%s") {
+            return 403;
+        }
+        proxy_pass https://localhost:%s;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header %s $http_custom_header;
+    }
+}
+  
+  `, teamserver, teamserver, teamserver, customSecret, port, customHeader)
+
+	return nginxConf
 }

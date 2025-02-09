@@ -11,6 +11,7 @@
 *WorkerMan.exe
 *wrangler.json
 *index.js
+*default
 
 # Test binary, built with `go test -c`
 *.test

@@ -59,7 +59,7 @@ var buildArgument = &cobra.Command{
 		buildStartTime := time.Now()
 
 		// Call function named TemplateManager
-		wranglerJson, indexJs := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
+		wranglerJson, indexJs, nginxConf := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
 
 		// Call function named WriteOutput2File
 		Output.WriteOutput2File(wranglerJson, "wrangler.json")
@@ -67,11 +67,17 @@ var buildArgument = &cobra.Command{
 		// Call function named WriteOutput2File
 		Output.WriteOutput2File(indexJs, "index.js")
 
+		// Call function named WriteOutput2File
+		Output.WriteOutput2File(nginxConf, "default")
+
 		// Call function named GetAbsolutePath
 		wranglerJsonPath, _ := Utils.GetAbsolutePath("wrangler.json")
 
 		// Call function named GetAbsolutePath
 		indexJsPath, _ := Utils.GetAbsolutePath("index.js")
+
+		// Call function named GetAbsolutePath
+		nginxConfPath, _ := Utils.GetAbsolutePath("default")
 
 		// Record the end time
 		buildEndTime := time.Now()
@@ -80,8 +86,9 @@ var buildArgument = &cobra.Command{
 		buildDurationTime := buildEndTime.Sub(buildStartTime)
 
 		// Print the output
-		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.json")+" file saved to: %s\n", Colors.BoldRed(wranglerJsonPath))
-		fmt.Printf("[+] "+Colors.BoldMagneta("index.js")+" file saved to: %s\n\n", Colors.BoldBlue(indexJsPath))
+		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.json")+" file saved to: %s\n", Colors.BoldOrange(wranglerJsonPath))
+		fmt.Printf("[+] "+Colors.BoldGreen("index.js")+" file saved to: %s\n", Colors.BoldPink(indexJsPath))
+		fmt.Printf("[+] Nginx's "+Colors.BoldGreen("default")+" conf file saved to: %s\n\n", Colors.BoldCyan(nginxConfPath))
 		fmt.Printf("[+] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
 
 		return nil

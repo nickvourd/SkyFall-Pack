@@ -16,6 +16,8 @@ var (
 	BoldWhite   = color.New(color.FgHiWhite, color.Bold).SprintFunc()
 	BoldMagneta = color.New(color.FgMagenta, color.Bold).SprintFunc()
 	BoldCyan    = color.New(color.FgCyan, color.Bold).SprintFunc()
+	BoldOrange  = color.New(color.FgHiRed, color.Bold).SprintFunc()
+	BoldPink    = color.New(color.FgHiMagenta, color.Bold).SprintFunc()
 )
 
 // Define a slice containing all available color functions
