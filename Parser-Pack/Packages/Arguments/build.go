@@ -1,6 +1,7 @@
 package Arguments
 
 import (
+	"WorkerMan/Packages/Converters"
 	"WorkerMan/Packages/Manager"
 	"log"
 	"os"
@@ -37,12 +38,18 @@ var buildArgument = &cobra.Command{
 		teamserver, _ := cmd.Flags().GetString("teamserver")
 		worker, _ := cmd.Flags().GetString("worker")
 		name, _ := cmd.Flags().GetString("name")
-		port, _ := cmd.Flags().GetString("port")
+		port, _ := cmd.Flags().GetInt32("port")
 		customHeader, _ := cmd.Flags().GetString("custom-header")
 		customSecret, _ := cmd.Flags().GetString("custom-secret")
 
 		// Call function named BuildManager
-		Manager.BuildManager(teamserver, worker, name, port, customHeader, customSecret)
+		teamserver, worker, name = Manager.BuildManager(teamserver, worker, name)
+
+		// Call function named IntToString
+		port2String := Converters.IntToString(int(port))
+
+		// Call function named TemplateManager
+		Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
 
 		return nil
 	},
