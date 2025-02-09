@@ -2,6 +2,9 @@ package Manager
 
 import (
 	"WorkerMan/Packages/Protection"
+	"WorkerMan/Packages/Random"
+	"WorkerMan/Packages/Templates"
+	"WorkerMan/Packages/Utils"
 )
 
 // BuildManager function
@@ -23,17 +26,26 @@ func BuildManager(teamserver string, worker string, name string) (string, string
 		// Call function named ExtractWorkerName
 		name = Protection.ExtractWorkerName(worker)
 	} else { // if name is not empty
-		// Call function named ExtractFQDN
-		name = Protection.ExtractFQDN(name)
-
-		// Call function named ExtractWorkerName
-		name = Protection.ExtractWorkerName(name)
+		// Call function named CompareNameWithWorker
+		name = Protection.CompareNameWithWorker(name, worker)
 	}
 
 	return teamserver, worker, name
 }
 
 // TemplateManager function
-func TemplateManager(teamserver string, worker string, name string, port string, customHeader string, customSecret string) {
-	// Placeholder for future code
+func TemplateManager(teamserver string, worker string, name string, port string, customHeader string, customSecret string) (string, string) {
+	// Call function named GenerateRandomVariableName
+	randomVariableName, randomVariableName2, randomVariableName3 := Random.GenerateRandomVariableName()
+
+	// Call function named GetDate
+	date := Utils.GetDate()
+
+	// Call function named BuildWranglerJSON
+	wranglerJson := Templates.BuildWranglerJSON(teamserver, worker, name, customSecret, randomVariableName, randomVariableName2, randomVariableName3, date)
+
+	// Call function named BuildIndexJS
+	indexJs := Templates.BuildIndexJS(randomVariableName, randomVariableName2, randomVariableName3, customHeader)
+
+	return wranglerJson, indexJs
 }

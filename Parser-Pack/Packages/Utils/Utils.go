@@ -7,6 +7,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // CheckGoVersio function
@@ -28,4 +29,15 @@ func GetAbsolutePath(filename string) (string, error) {
 		return "", err
 	}
 	return absolutePath, nil
+}
+
+// GetDate function
+func GetDate() string {
+	// Get current time
+	currentTime := time.Now()
+
+	// Format as YYYY-MM-DD
+	formattedDate := currentTime.Format("2006-01-02")
+
+	return formattedDate
 }

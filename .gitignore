@@ -8,6 +8,9 @@
 *.so
 *.dylib
 *WorkerMan
+*WorkerMan.exe
+*wrangler.json
+*index.js
 
 # Test binary, built with `go test -c`
 *.test

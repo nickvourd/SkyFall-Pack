@@ -3,6 +3,9 @@ package Arguments
 import (
 	"WorkerMan/Packages/Converters"
 	"WorkerMan/Packages/Manager"
+	"WorkerMan/Packages/Output"
+	"WorkerMan/Packages/Utils"
+	"fmt"
 	"log"
 	"os"
 
@@ -49,7 +52,22 @@ var buildArgument = &cobra.Command{
 		port2String := Converters.IntToString(int(port))
 
 		// Call function named TemplateManager
-		Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
+		wranglerJson, indexJs := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
+
+		// Call function named WriteOutput2File
+		Output.WriteOutput2File(wranglerJson, "wrangler.json")
+
+		// Call function named WriteOutput2File
+		Output.WriteOutput2File(indexJs, "index.js")
+
+		// Call function named GetAbsolutePath
+		wranglerJsonPath, _ := Utils.GetAbsolutePath("wrangler.json")
+
+		// Call function named GetAbsolutePath
+		indexJsPath, _ := Utils.GetAbsolutePath("index.js")
+
+		fmt.Printf("[+] wrangler.json file saved to: %s\n", wranglerJsonPath)
+		fmt.Printf("[+] index.js file saved to: %s\n", indexJsPath)
 
 		return nil
 	},
