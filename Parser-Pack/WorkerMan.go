@@ -21,5 +21,4 @@ func main() {
 		logger.Fatal("Error: ", err)
 		return
 	}
-
 }

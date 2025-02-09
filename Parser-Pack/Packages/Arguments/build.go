@@ -1,6 +1,7 @@
 package Arguments
 
 import (
+	"WorkerMan/Packages/Colors"
 	"WorkerMan/Packages/Converters"
 	"WorkerMan/Packages/Manager"
 	"WorkerMan/Packages/Output"
@@ -8,6 +9,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -48,8 +50,13 @@ var buildArgument = &cobra.Command{
 		// Call function named BuildManager
 		teamserver, worker, name = Manager.BuildManager(teamserver, worker, name)
 
+		fmt.Print("[+] Building the configuration files...\n\n")
+
 		// Call function named IntToString
 		port2String := Converters.IntToString(int(port))
+
+		// Record the start time
+		buildStartTime := time.Now()
 
 		// Call function named TemplateManager
 		wranglerJson, indexJs := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
@@ -66,8 +73,16 @@ var buildArgument = &cobra.Command{
 		// Call function named GetAbsolutePath
 		indexJsPath, _ := Utils.GetAbsolutePath("index.js")
 
-		fmt.Printf("[+] wrangler.json file saved to: %s\n", wranglerJsonPath)
-		fmt.Printf("[+] index.js file saved to: %s\n", indexJsPath)
+		// Record the end time
+		buildEndTime := time.Now()
+
+		// Calculate the duration
+		buildDurationTime := buildEndTime.Sub(buildStartTime)
+
+		// Print the output
+		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.json")+" file saved to: %s\n", Colors.BoldRed(wranglerJsonPath))
+		fmt.Printf("[+] "+Colors.BoldMagneta("index.js")+" file saved to: %s\n\n", Colors.BoldBlue(indexJsPath))
+		fmt.Printf("[+] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
 
 		return nil
 	},
