@@ -1,7 +1,7 @@
 package Arguments
 
 import (
-	"fmt"
+	"WorkerMan/Packages/Manager"
 	"log"
 	"os"
 
@@ -41,7 +41,8 @@ var buildArgument = &cobra.Command{
 		customHeader, _ := cmd.Flags().GetString("custom-header")
 		customSecret, _ := cmd.Flags().GetString("custom-secret")
 
-		fmt.Print(teamserver, worker, name, port, customHeader, customSecret)
+		// Call function named BuildManager
+		Manager.BuildManager(teamserver, worker, name, port, customHeader, customSecret)
 
 		return nil
 	},
