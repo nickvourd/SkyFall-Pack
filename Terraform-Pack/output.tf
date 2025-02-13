@@ -17,3 +17,8 @@ output "username" {
 output "connection_string" {
   value = "ssh -i ${var.ssh_privkey}.pem ${var.username}@${azurerm_public_ip.main.fqdn}"
 }
+
+output "ssh_privkey" {
+  value     = var.ssh_privkey
+  sensitive = true
+}
