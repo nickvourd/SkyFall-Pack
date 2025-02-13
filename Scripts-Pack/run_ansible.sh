@@ -2,7 +2,7 @@
 
 # Initialize script location
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-PROJECT_ROOT="$SCRIPT_DIR/../../"
+PROJECT_ROOT="$SCRIPT_DIR/../"
 
 # Check if Ansible is installed
 if ! command -v ansible &> /dev/null; then

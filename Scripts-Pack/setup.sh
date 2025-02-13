@@ -6,7 +6,7 @@ USERNAME=""
 PREFIX=""
 SSH_KEY=""
 DNS_NAME=""
-PROJECT_ROOT="../../"  # Navigate up from Script-Pack/Bash to SkyFall-Pack
+PROJECT_ROOT="../"  # Navigate up from Script-Pack/ to SkyFall-Pack
 TFVARS_PATH="${PROJECT_ROOT}Terraform-Pack/terraform.tfvars"
 
 # Function to check if Azure CLI is installed
