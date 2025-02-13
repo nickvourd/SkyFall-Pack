@@ -1,8 +1,3 @@
-# Configure the Azure Provider
-provider "azurerm" {
-  features {}
-}
-
 # Create a random string for unique names
 resource "random_string" "main" {
   length  = 8
