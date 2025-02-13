@@ -1,8 +1,18 @@
 ---
+- name: Install Certbot via snap
+  snap:
+    name: certbot
+    classic: yes
+    state: present
+
 - name: Configure SSL with Certbot
   command: /snap/bin/certbot certonly -d {{ lookup('env', 'VM_FQDN') }} --nginx --register-unsafely-without-email --agree-tos --non-interactive
   register: certbot_result
   changed_when: certbot_result.rc == 0
   args:
     creates: "/etc/letsencrypt/live/{{ lookup('env', 'VM_FQDN') }}"
-  notify: Restart Nginx
+  
+- name: Restart nginx service
+  systemd:
+    name: nginx
+    state: restarted
