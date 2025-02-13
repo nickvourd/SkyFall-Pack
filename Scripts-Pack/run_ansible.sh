@@ -22,6 +22,7 @@ cd "$PROJECT_ROOT/Terraform-Pack" || exit
 export VM_IP=$(terraform output -raw public_ip)
 export VM_USER=$(terraform output -raw username)
 export SSH_KEY_PATH="$(pwd)/$(terraform output -raw ssh_privkey).pem"
+export VM_FQDN=$(terraform output -raw fqdn)
 
 # Change to Ansible directory
 cd "$PROJECT_ROOT/Ansible-Pack" || exit
@@ -35,10 +36,11 @@ fi
 # Set correct permissions for SSH key
 chmod 600 "$SSH_KEY_PATH"
 
-echo -e "\n[*] Running Ansible playbook with:"
+echo -e "\n[+] Running Ansible playbook with:"
 echo "VM IP: $VM_IP"
 echo "Username: $VM_USER"
 echo "SSH Key: $SSH_KEY_PATH"
+echo "VM FQDN: $VM_FQDN"
 echo ""
 
 # Run ansible playbook
