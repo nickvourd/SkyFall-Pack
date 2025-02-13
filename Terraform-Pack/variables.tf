@@ -23,3 +23,10 @@ variable "ssh_privkey" {
   default     = "ssh_privkey"
   description = "SSH private key filename"
 }
+
+# Add DNS name variable
+variable "dns_name" {
+  type        = string
+  description = "DNS name label for the VM's public IP"
+  default     = "skyfall"
+}
