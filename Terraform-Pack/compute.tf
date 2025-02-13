@@ -3,7 +3,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   name                            = "vm-${random_string.main.result}"
   resource_group_name             = azurerm_resource_group.main.name
   location                        = var.resource_group_location
-  size                           = "Standard_B1s"
+  size                           = "Standard_B1ms"
   admin_username                  = var.username
   network_interface_ids          = [azurerm_network_interface.main.id]
   disable_password_authentication = true
