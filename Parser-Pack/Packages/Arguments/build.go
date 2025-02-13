@@ -62,7 +62,7 @@ var buildArgument = &cobra.Command{
 		wranglerJson, indexJs, nginxConf := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
 
 		// Call function named WriteOutput2File
-		Output.WriteOutput2File(wranglerJson, "wrangler.json")
+		Output.WriteOutput2File(wranglerJson, "wrangler.jsonc")
 
 		// Call function named WriteOutput2File
 		Output.WriteOutput2File(indexJs, "index.js")
@@ -71,7 +71,7 @@ var buildArgument = &cobra.Command{
 		Output.WriteOutput2File(nginxConf, "default")
 
 		// Call function named GetAbsolutePath
-		wranglerJsonPath, _ := Utils.GetAbsolutePath("wrangler.json")
+		wranglerJsonPath, _ := Utils.GetAbsolutePath("wrangler.jsonc")
 
 		// Call function named GetAbsolutePath
 		indexJsPath, _ := Utils.GetAbsolutePath("index.js")
@@ -86,7 +86,7 @@ var buildArgument = &cobra.Command{
 		buildDurationTime := buildEndTime.Sub(buildStartTime)
 
 		// Print the output
-		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.json")+" file saved to: %s\n", Colors.BoldOrange(wranglerJsonPath))
+		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.jsonc")+" file saved to: %s\n", Colors.BoldOrange(wranglerJsonPath))
 		fmt.Printf("[+] "+Colors.BoldGreen("index.js")+" file saved to: %s\n", Colors.BoldPink(indexJsPath))
 		fmt.Printf("[+] Nginx's "+Colors.BoldGreen("default")+" conf file saved to: %s\n\n", Colors.BoldCyan(nginxConfPath))
 		fmt.Printf("[+] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
