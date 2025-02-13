@@ -14,7 +14,7 @@ var (
 	__license__      = "MIT"
 	__author__       = []string{"@nickvourd", "@kavasilo"}
 	__github__       = "https://github.com/nickvourd/Skyfall-Pack"
-	__version_name__ = "Zero Calories"
+	__version_name__ = "The Builder"
 	__ascii__        = `
  
 ██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗███████╗██████╗ ███╗   ███╗ █████╗ ███╗   ██╗
