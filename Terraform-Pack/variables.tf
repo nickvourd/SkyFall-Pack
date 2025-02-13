@@ -16,3 +16,10 @@ variable "prefix" {
   default     = "vm"
   description = "Prefix for all resources"
 }
+
+# Add SSH private key filename variable
+variable "ssh_privkey" {
+  type        = string
+  default     = "ssh_privkey"
+  description = "SSH private key filename"
+}

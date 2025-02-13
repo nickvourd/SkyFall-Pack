@@ -4,18 +4,9 @@ resource "tls_private_key" "ssh" {
   rsa_bits  = 4096
 }
 
-# Output the private key
-output "private_key" {
-  value     = tls_private_key.ssh.private_key_pem
-  sensitive = true
-}
-
-# Output the public IP
-output "public_ip" {
-  value = azurerm_public_ip.main.ip_address
-}
-
-# Output username
-output "username" {
-  value = var.username
+# Save private key to file
+resource "local_file" "private_key" {
+  content         = tls_private_key.ssh.private_key_pem
+  filename        = "${path.module}/${var.ssh_privkey}.pem"
+  file_permission = "0600"
 }

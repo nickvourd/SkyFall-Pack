@@ -1,5 +1,6 @@
-output "resource_group_name" {
-  value = azurerm_resource_group.main.name
+output "private_key" {
+  value     = tls_private_key.ssh.private_key_pem
+  sensitive = true
 }
 
 output "public_ip" {
@@ -11,5 +12,5 @@ output "username" {
 }
 
 output "connection_string" {
-  value = "ssh -i ssh_key.pem ${var.username}@${azurerm_public_ip.main.ip_address}"
+  value = "ssh -i ${var.ssh_privkey}.pem ${var.username}@${azurerm_public_ip.main.ip_address}"
 }
