@@ -7,6 +7,33 @@ $DNS_NAME = ""
 $PROJECT_ROOT = "../../"  # Navigate up from Script-Pack/Powershell to SkyFall-Pack
 $TFVARS_PATH = Join-Path $PROJECT_ROOT "Terraform-Pack/terraform.tfvars"
 
+# Function to check if Azure CLI is installed
+function Check-AzureCLI {
+   try {
+       $azVersion = az --version
+       
+       # Check if user is logged in to Azure
+       try {
+           $null = az account show
+       }
+       catch {
+           Write-Host "`n[!] Error: Not logged in to Azure" -ForegroundColor Red
+           Write-Host "`n[*] Please login to Azure using:"
+           Write-Host "    az login`n"
+           exit 1
+       }
+       return $true
+   }
+   catch {
+       Write-Host "`n[!] Error: Azure CLI is not installed" -ForegroundColor Red
+       Write-Host "`n[*] Please install Azure CLI using one of these methods:"
+       Write-Host "    1. Download from: https://aka.ms/installazurecliwindows"
+       Write-Host "    2. Winget: winget install Microsoft.AzureCLI"
+       Write-Host "    3. Chocolatey: choco install azure-cli`n"
+       exit 1
+   }
+}
+
 # Function to check if Terraform is installed
 function Check-Terraform {
    try {
@@ -102,7 +129,7 @@ while ($i -lt $args.Count) {
            $i += 2
        }
        default {
-           Write-Host "Error: Unknown parameter $($args[$i])" -ForegroundColor Red
+           Write-Host "`n[!] Error: Unknown parameter $($args[$i])" -ForegroundColor Red
            Show-Usage
        }
    }
@@ -144,9 +171,6 @@ Write-Host "Username: $USERNAME"
 Write-Host "Resource Prefix: $PREFIX"
 Write-Host "SSH Key Name: $SSH_KEY"
 Write-Host "DNS Name: $DNS_NAME`n"
-
-# Check if Terraform is installed
-Check-Terraform
 
 # Store current location
 $currentLocation = Get-Location

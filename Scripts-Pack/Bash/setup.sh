@@ -9,6 +9,29 @@ DNS_NAME=""
 PROJECT_ROOT="../../"  # Navigate up from Script-Pack/Bash to SkyFall-Pack
 TFVARS_PATH="${PROJECT_ROOT}Terraform-Pack/terraform.tfvars"
 
+# Function to check if Azure CLI is installed
+CheckAzureCLI() {
+   if ! command -v az &> /dev/null; then
+       echo -e "\n[!] Error: Azure CLI is not installed\n"
+       echo -e "[*] Please install Azure CLI using one of these methods:"
+       echo "    1. Linux (apt): curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
+       echo "    2. Linux (yum): sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc"
+       echo "    3. MacOS: brew install azure-cli"
+       echo "    4. Download from: https://docs.microsoft.com/cli/azure/install-azure-cli"
+       echo ""
+       exit 1
+   fi
+
+   # Check if user is logged in to Azure
+   if ! az account show &> /dev/null; then
+       echo -e "\n[!] Error: Not logged in to Azure\n"
+       echo -e "[*] Please login to Azure using:"
+       echo "    az login"
+       echo ""
+       exit 1
+   fi
+}
+
 # Function to check if Terraform is installed
 CheckTerraform() {
    if ! command -v terraform &> /dev/null; then
@@ -149,9 +172,6 @@ echo "Resource Prefix: $PREFIX"
 echo "SSH Key Name: $SSH_KEY"
 echo "DNS Name: $DNS_NAME"
 echo ""
-
-# Check if Terraform is installed
-CheckTerraform
 
 # Store current location
 CURRENT_DIR=$(pwd)
