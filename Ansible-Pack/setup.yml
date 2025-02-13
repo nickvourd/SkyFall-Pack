@@ -1,8 +1,0 @@
----
-- name: Configure Azure VM
-  hosts: azure_vm
-  become: yes
-  
-  roles:
-    - system
-    - nginx
