@@ -120,3 +120,31 @@ Write-Host "VM-Location: $LOCATION"
 Write-Host "Username: $USERNAME"
 Write-Host "Resource Prefix: $PREFIX"
 Write-Host "SSH Key Name: $SSH_KEY`n"
+
+# Change to Terraform directory
+Set-Location (Join-Path $PROJECT_ROOT "Terraform-Pack")
+
+# Initialize Terraform
+Write-Host "[*] Initializing Terraform...`n" -ForegroundColor Yellow
+terraform init
+
+# Run Terraform plan
+Write-Host "`n[*] Planning Terraform deployment...`n" -ForegroundColor Yellow
+terraform plan
+
+# Ask user for confirmation before applying
+$confirm = Read-Host "`nDo you want to apply the Terraform configuration? (y/n)"
+if ($confirm -match '^[yY]$|^[yY][eE][sS]$') {
+    Write-Host "`n[*] Applying Terraform configuration...`n" -ForegroundColor Yellow
+    terraform apply -auto-approve
+
+    # Get connection string
+    Write-Host "`n[*] Getting connection string...`n" -ForegroundColor Yellow
+    terraform output connection_string
+}
+else {
+    Write-Host "`n[!] Terraform apply cancelled`n" -ForegroundColor Red
+}
+
+# Return to original directory
+Set-Location -Path $PSScriptRoot

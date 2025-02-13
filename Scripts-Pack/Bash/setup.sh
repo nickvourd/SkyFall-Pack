@@ -28,7 +28,7 @@ CheckLocation() {
         "japaneast"
         "japanwest"
     )
-
+    
     # Check if provided location exists in valid_locations
     for valid_location in "${valid_locations[@]}"; do
         if [ "$location" == "$valid_location" ]; then
@@ -36,7 +36,7 @@ CheckLocation() {
             return 0
         fi
     done
-
+    
     echo -e "[!] Error: Invalid Azure location provided\n"
     echo -e "[*] Valid locations are:\n"
     printf '%s\n' "${valid_locations[@]}"
@@ -127,3 +127,27 @@ echo "Username: $USERNAME"
 echo "Resource Prefix: $PREFIX"
 echo "SSH Key Name: $SSH_KEY"
 echo ""
+
+# Change to Terraform directory
+cd "${PROJECT_ROOT}Terraform-Pack" || exit
+
+# Initialize Terraform
+echo -e "[*] Initializing Terraform...\n"
+terraform init
+
+# Run Terraform plan
+echo -e "\n[*] Planning Terraform deployment...\n"
+terraform plan
+
+# Ask user for confirmation before applying
+read -p "Do you want to apply the Terraform configuration? (y/n): " confirm
+if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+    echo -e "\n[*] Applying Terraform configuration...\n"
+    terraform apply -auto-approve
+
+    # Get connection string
+    echo -e "\n[*] Getting connection string...\n"
+    terraform output connection_string
+else
+    echo -e "\n[!] Terraform apply cancelled\n"
+fi
