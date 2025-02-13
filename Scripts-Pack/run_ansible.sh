@@ -44,4 +44,4 @@ echo "VM FQDN: $VM_FQDN"
 echo ""
 
 # Run ansible playbook
-ansible-playbook -i inventory/hosts.yml setup.yml -v
+ansible-playbook -i inventory/hosts.yml setup.yml -vv
