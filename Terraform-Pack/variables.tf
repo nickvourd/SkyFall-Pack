@@ -1,3 +1,0 @@
-variable location {
-  type = string
-}
