@@ -1,0 +1,11 @@
+---
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - snapd
+    - openjdk-11-jdk
+    - pipenv
+    - net-tools
+    - magic-wormhole

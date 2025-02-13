@@ -1,0 +1,12 @@
+---
+- name: Include system updates
+  include_tasks: updates.yml
+
+- name: Include package installations
+  include_tasks: packages.yml
+
+- name: Include snapd configuration
+  include_tasks: snapd.yml
+
+- name: Include certbot installation
+  include_tasks: certbot.yml

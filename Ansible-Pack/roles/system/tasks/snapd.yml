@@ -1,0 +1,16 @@
+---
+- name: Unmask snapd service
+  systemd:
+    name: snapd.service
+    masked: no
+
+- name: Enable snapd service
+  systemd:
+    name: snapd.service
+    enabled: yes
+    state: started
+
+- name: Restart snapd service
+  systemd:
+    name: snapd.service
+    state: restarted

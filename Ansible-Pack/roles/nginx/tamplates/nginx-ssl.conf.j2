@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ fqdn_output.stdout }};
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name {{ fqdn_output.stdout }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ fqdn_output.stdout }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ fqdn_output.stdout }}/privkey.pem;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

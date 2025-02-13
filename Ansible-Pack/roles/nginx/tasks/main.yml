@@ -1,0 +1,60 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: latest
+  when: ansible_os_family == "Debian"
+
+- name: Ensure Nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Configure firewall
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - '80'
+    - '443'
+
+- name: Get FQDN from Terraform output
+  command: terraform output -raw fqdn
+  register: fqdn_output
+  changed_when: false
+  args:
+    chdir: "{{ playbook_dir }}/../../Terraform-Pack"
+
+- name: Create SSL Nginx configuration
+  template:
+    src: nginx-ssl.conf.j2
+    dest: /etc/nginx/sites-available/default
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart nginx
+
+- name: Create a test index.html
+  copy:
+    content: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <title>Welcome to {{ fqdn_output.stdout }}</title>
+      </head>
+      <body>
+          <h1>Welcome to {{ fqdn_output.stdout }}</h1>
+          <p>If you see this page, the nginx web server is successfully installed and working with SSL.</p>
+      </body>
+      </html>
+    dest: /var/www/html/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
