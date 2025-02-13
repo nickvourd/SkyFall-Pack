@@ -9,6 +9,20 @@ DNS_NAME=""
 PROJECT_ROOT="../../"  # Navigate up from Script-Pack/Bash to SkyFall-Pack
 TFVARS_PATH="${PROJECT_ROOT}Terraform-Pack/terraform.tfvars"
 
+# Function to check if Terraform is installed
+CheckTerraform() {
+   if ! command -v terraform &> /dev/null; then
+       echo -e "\n[!] Error: Terraform is not installed\n"
+       echo -e "[*] Please install Terraform using one of these methods:"
+       echo "    1. Linux (apt): sudo apt-get install terraform"
+       echo "    2. Linux (yum): sudo yum install terraform"
+       echo "    3. MacOS: brew install terraform"
+       echo "    4. Download from: https://www.terraform.io/downloads"
+       echo ""
+       exit 1
+   fi
+}
+
 # Function to check if location is valid
 CheckLocation() {
    local location=$(echo "$1" | tr '[:upper:]' '[:lower:]')
@@ -38,7 +52,7 @@ CheckLocation() {
        fi
    done
    
-   echo -e "[!] Error: Invalid Azure location provided\n"
+   echo -e "\n[!] Error: Invalid Azure location provided\n"
    echo -e "[*] Valid locations are:\n"
    printf '%s\n' "${valid_locations[@]}"
    exit 1
@@ -136,6 +150,12 @@ echo "SSH Key Name: $SSH_KEY"
 echo "DNS Name: $DNS_NAME"
 echo ""
 
+# Check if Terraform is installed
+CheckTerraform
+
+# Store current location
+CURRENT_DIR=$(pwd)
+
 # Change to Terraform directory
 cd "${PROJECT_ROOT}Terraform-Pack" || exit
 
@@ -153,7 +173,7 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
    echo -e "\n[*] Applying Terraform configuration...\n"
    terraform apply -auto-approve
 
-   # Get connection string
+   # Get connection information
    echo -e "\n[*] Getting connection information...\n"
    echo -e "[*] Connection String:"
    terraform output connection_string
@@ -164,3 +184,6 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
 else
    echo -e "\n[!] Terraform apply cancelled\n"
 fi
+
+# Return to original directory
+cd "$CURRENT_DIR" || exit
