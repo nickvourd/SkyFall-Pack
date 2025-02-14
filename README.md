@@ -36,8 +36,7 @@ Install the following dependencies on your local machine.
 For Linux:
 
 ```
-sudo apt install terraform npm ansible golang -y
-curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+sudo apt install terraform npm ansible golang azure-cli -y
 ```
 
 For Mac:
