@@ -6,4 +6,3 @@
   roles:
     - system
     - nginx
-    - pipfile
