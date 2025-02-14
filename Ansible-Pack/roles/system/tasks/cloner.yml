@@ -1,0 +1,7 @@
+---
+- name: Clone random_c2_profile repository
+  git:
+    repo: https://github.com/nickvourd/random_c2_profile
+    dest: /opt/random_c2_profile
+    clone: yes
+    update: yes
