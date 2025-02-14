@@ -14,7 +14,7 @@ CheckAzureCLI() {
    if ! command -v az &> /dev/null; then
        echo -e "\n[!] Error: Azure CLI is not installed\n"
        echo -e "[*] Please install Azure CLI using one of these methods:"
-       echo "    1. Linux (apt): curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"
+       echo "    1. Linux (apt): sudo apt install azure-cli -y"
        echo "    2. Linux (yum): sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc"
        echo "    3. MacOS: brew install azure-cli"
        echo "    4. Download from: https://docs.microsoft.com/cli/azure/install-azure-cli"
@@ -37,7 +37,7 @@ CheckTerraform() {
    if ! command -v terraform &> /dev/null; then
        echo -e "\n[!] Error: Terraform is not installed\n"
        echo -e "[*] Please install Terraform using one of these methods:"
-       echo "    1. Linux (apt): sudo apt-get install terraform"
+       echo "    1. Linux (apt): sudo apt install terraform -y"
        echo "    2. Linux (yum): sudo yum install terraform"
        echo "    3. MacOS: brew install terraform"
        echo "    4. Download from: https://www.terraform.io/downloads"
