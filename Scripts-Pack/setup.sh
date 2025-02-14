@@ -188,23 +188,20 @@ echo -e "\n[*] Planning Terraform deployment...\n"
 terraform plan
 
 # Applying Terraform configuration
-   echo -e "\n[*] Applying Terraform configuration...\n"
-   terraform apply -auto-approve
+echo -e "\n[*] Applying Terraform configuration...\n"
+terraform apply -auto-approve
 
-   # Get connection information
-   echo -e "\n[*] Getting connection information...\n"
-   echo -e "[*] Connection String:"
-   terraform output connection_string
-   echo -e "\n[*] FQDN:"
-   terraform output fqdn
-   echo -e "\n[*] Public IP:"
-   terraform output public_ip
-   echo -e "\n[*] Username:"
-   terraform output username
-   echo ""
-else
-   echo -e "\n[!] Terraform apply cancelled\n"
-fi
+# Get connection information
+echo -e "\n[*] Getting connection information...\n"
+echo -e "[*] Connection String:"
+terraform output connection_string
+echo -e "\n[*] FQDN:"
+terraform output fqdn
+echo -e "\n[*] Public IP:"
+terraform output public_ip
+echo -e "\n[*] Username:"
+terraform output username
+echo ""
 
 # Return to original directory
 cd "$CURRENT_DIR" || exit
