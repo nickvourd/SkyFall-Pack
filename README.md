@@ -63,4 +63,26 @@ az login
 
 ### Build Infra
 
+- Azure VM (Team Server)
 
+```
+./Scripts-Pack/setup.sh -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name>
+```
+
+- Configure Azure VM (Team Server)
+
+```
+./Scripts-Pack/run_ansible.sh -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value>
+```
+
+- Cloudflare Worker
+
+```
+npm create cloudflare
+```
+
+- Configure Cloudflare Worker
+
+```
+./WorkerMan build -t <teamserver_hostname> -w <worker_hostname> -c <custom_header> -s <secret_value>
+```
