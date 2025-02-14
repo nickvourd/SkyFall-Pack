@@ -10,3 +10,5 @@
     - net-tools
     - magic-wormhole
     - nginx
+    - git
+    - curl
