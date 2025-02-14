@@ -14,6 +14,7 @@
     - curl
     - tmux
     - vim
+    - software-properties-common
     - python3
     - wget
     - proxychains
