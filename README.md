@@ -36,7 +36,7 @@ Install the following dependencies on your local machine.
 For Linux:
 
 ```
-sudo apt install terraform node wrangler ansible golang -y
+sudo apt install terraform npm wrangler ansible golang -y
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
 
