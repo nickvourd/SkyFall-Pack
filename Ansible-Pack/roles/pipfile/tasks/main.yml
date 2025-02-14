@@ -6,6 +6,15 @@
    update_cache: yes
  become: true
  
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python3.12
+    - pipenv
+    - magic-wormhole
+ 
 - name: Config random_c2_profile/Pipfile
  template:
    src: Pipfile.j2 
