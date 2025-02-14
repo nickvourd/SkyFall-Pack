@@ -1,8 +1,8 @@
 server {
     listen 443 ssl;
-    server_name {{ fqdn_output.stdout }};
-    ssl_certificate /etc/letsencrypt/live/{{ fqdn_output.stdout }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ fqdn_output.stdout }}/privkey.pem;
+    server_name {{ lookup('env', 'VM_FQDN') }};
+    ssl_certificate /etc/letsencrypt/live/{{ lookup('env', 'VM_FQDN') }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ lookup('env', 'VM_FQDN') }}/privkey.pem;
     ssl_protocols TLSv1.3;
 
     root /var/www/html;
