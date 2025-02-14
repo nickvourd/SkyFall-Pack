@@ -1,4 +1,11 @@
 ---
+- name: Add deadsnakes PPA for Python 3.12
+ apt_repository:
+   repo: ppa:deadsnakes/ppa
+   state: present
+   update_cache: yes
+ become: true
+ 
 - name: Config random_c2_profile/Pipfile
  template:
    src: Pipfile.j2 
