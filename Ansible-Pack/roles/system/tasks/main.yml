@@ -5,7 +5,7 @@
 - name: Include package installations
   include_tasks: packages.yml
   
-- name: Include cloning github repositories
+- name: Include github repositories
   include_tasks: cloner.yml
 
 - name: Include snapd configuration
