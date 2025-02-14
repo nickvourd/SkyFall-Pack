@@ -46,3 +46,23 @@ brew install terraform azure-cli node wrangler ansible go
 ```
 
 ## Usage
+
+### Cloudflare Worker
+
+- Login with wangler:
+
+```
+npm exec wangler login
+```
+
+- Create a cloudflare project:
+
+```
+npm create cloudflare
+```
+
+### Authenticate to a Tenant
+
+```
+az login
+```
