@@ -8,5 +8,8 @@
 - name: Include snapd configuration
   include_tasks: snapd.yml
 
-- name: Include certbot installation
+- name: Include certbot installation and configuration
   include_tasks: certbot.yml
+
+- name: Include Keystore generation
+  include_tasks: keystore.yml
