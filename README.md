@@ -11,3 +11,22 @@ Your Skyfall Infrastructure Pack
 </p>
 
 ## Description
+
+SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverages Cloudflare Workers as redirectors and an Azure VM as the teamerver.
+
+The following list explains the meaning of each pack:
+
+- **Workers-Pack**: A Go-based pack that automates the generation of `wrangler.jsonc` and `index.js`.
+- **Scripts-Pack**: Bash scripts that initiate and configure the process.
+- **Terraform-Pack**: A Terraform pack that contains all the code for deploying the Azure VM.
+- **Ansible-Pack**: An Ansible pack that contains all the code for configuring the Azure VM.
+
+## Table of Contents
+- [SkyFall-Pack](#skyfall-pack)
+  - [Description](#description)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [References](#references)
+
+## Installation
