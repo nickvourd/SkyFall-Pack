@@ -1,6 +1,6 @@
 # Virtual Machine
 resource "azurerm_linux_virtual_machine" "main" {
-  name                            = "vm-${random_string.main.result}"
+  name                            = "vm-${var.prefix}-${random_string.main.result}"
   resource_group_name             = azurerm_resource_group.main.name
   location                        = var.resource_group_location
   size                           = "Standard_B1ms"
