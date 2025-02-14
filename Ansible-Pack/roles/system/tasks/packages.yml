@@ -6,16 +6,12 @@
   loop:
     - snapd
     - openjdk-11-jdk
-    - pipenv
     - net-tools
-    - magic-wormhole
     - nginx
     - git
     - curl
     - tmux
     - vim
-    - software-properties-common
     - python3
     - wget
     - proxychains
-    - python3-pip
