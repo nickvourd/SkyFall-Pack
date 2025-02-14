@@ -78,6 +78,7 @@ CheckLocation() {
    echo -e "\n[!] Error: Invalid Azure location provided\n"
    echo -e "[*] Valid locations are:\n"
    printf '%s\n' "${valid_locations[@]}"
+   echo ""
    exit 1
 }
 
@@ -94,10 +95,10 @@ usage() {
    echo "  -d, -dns         DNS name prefix for public IP"
    echo ""
    echo "Example with full flags:"
-   echo "  $0 -location westus2 -username nickvourd -name my-vm -ssh my-ssh-key -dns skyfall"
+   echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall"
    echo ""
    echo "Example with short flags:"
-   echo "  $0 -l westus2 -u nickvourd -n my-vm -s my-ssh-key -d skyfall"
+   echo "  $0 -l westus2 -u nickvourd -n rt -s my-ssh-key -d skyfall"
    echo ""
    exit 1
 }
