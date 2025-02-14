@@ -61,7 +61,9 @@ npm exec wangler login
 npm create cloudflare
 ```
 
-### Authenticate to a Tenant
+### Azure Subscription
+
+- Authenticate to a Tenant
 
 ```
 az login
