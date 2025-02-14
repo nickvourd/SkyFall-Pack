@@ -14,10 +14,10 @@ usage() {
     echo "  -p, --password  Keystore password"
     echo ""
     echo "Example with full flags:"
-    echo "  $0 --file mykey --password mysecretpass"
+    echo "  $0 --file nickvourd --password mysecretpass"
     echo ""
     echo "Example with short flags:"
-    echo "  $0 -f mykey -p mysecretpass"
+    echo "  $0 -f nickvourd -p mysecretpass"
     echo ""
     exit 1
 }
