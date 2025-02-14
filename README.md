@@ -86,3 +86,9 @@ npm create cloudflare
 ```
 ./WorkerMan build -t <teamserver_hostname> -w <worker_hostname> -c <custom_header> -s <secret_value>
 ```
+
+## References
+
+- [(Re)visiting Cloudflare Workers for C2 by Marcello](https://byt3bl33d3r.substack.com/p/revisiting-cloudflare-workers-for)
+- [Using Cloudflare Workers as Redirectors](https://ajpc500.github.io/c2/Using-CloudFlare-Workers-as-Redirectors/)
+- [Putting the C2 in C2loudflare by JUMPSEC Labs](https://labs.jumpsec.com/putting-the-c2-in-c2loudflare/)
