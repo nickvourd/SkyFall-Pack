@@ -68,8 +68,8 @@ export VM_IP=$(terraform output -raw public_ip)
 export VM_USER=$(terraform output -raw username)
 export SSH_KEY_PATH="$(pwd)/$(terraform output -raw ssh_privkey).pem"
 export VM_FQDN=$(terraform output -raw fqdn)
-export KEYSTORE_FILENAME="$KEYSTORE_FILE"
-export KEYSTORE_PASSWORD="$KEYSTORE_PASS"
+export KEYSTORE_FILENAME=$KEYSTORE_FILE
+export KEYSTORE_PASSWORD=$KEYSTORE_PASS
 
 # Change to Ansible directory
 cd "$PROJECT_ROOT/Ansible-Pack" || exit
