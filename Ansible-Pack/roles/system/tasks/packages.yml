@@ -12,3 +12,6 @@
     - nginx
     - git
     - curl
+    - tmux
+    - vim
+    - python3
