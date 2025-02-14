@@ -16,3 +16,4 @@
     - vim
     - python3
     - wget
+    - proxychains
