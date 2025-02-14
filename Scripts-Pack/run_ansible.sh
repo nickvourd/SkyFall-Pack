@@ -88,7 +88,7 @@ echo "VM IP: $VM_IP"
 echo "Username: $VM_USER"
 echo "SSH Key: $SSH_KEY_PATH"
 echo "VM FQDN: $VM_FQDN"
-echo "Keystore File: $KEYSTORE_FILENAME"
+echo "Keystore Filename: $KEYSTORE_FILENAME"
 echo "Keystore Password: $KEYSTORE_PASS"
 echo ""
 
