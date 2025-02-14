@@ -1,0 +1,8 @@
+---
+- name: Config random_c2_profile/Pipfile
+  template:
+    src: Pipfile.j2
+    dest: /opt/random_c2_profile/Pipfile
+    owner: root
+    group: root
+    mode: '0644'
