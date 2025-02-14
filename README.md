@@ -65,7 +65,7 @@ az login
 
 ### Build Infra
 
-- Clone the project
+- Clone The Project
 
 ```
 git clone https://github.com/nickvourd/SkyFall-Pack.git
