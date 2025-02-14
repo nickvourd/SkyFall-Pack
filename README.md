@@ -65,6 +65,12 @@ az login
 
 ### Build Infra
 
+- Clone the project
+
+```
+git clone https://github.com/nickvourd/SkyFall-Pack.git
+```
+
 - Azure VM (Team Server)
 
 ```
