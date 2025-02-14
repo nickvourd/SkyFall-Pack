@@ -187,9 +187,7 @@ terraform init
 echo -e "\n[*] Planning Terraform deployment...\n"
 terraform plan
 
-# Ask user for confirmation before applying
-read -p "Do you want to apply the Terraform configuration? (y/n): " confirm
-if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+# Applying Terraform configuration
    echo -e "\n[*] Applying Terraform configuration...\n"
    terraform apply -auto-approve
 
@@ -201,6 +199,9 @@ if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
    terraform output fqdn
    echo -e "\n[*] Public IP:"
    terraform output public_ip
+   echo -e "\n[*] Username:"
+   terraform output username
+   echo ""
 else
    echo -e "\n[!] Terraform apply cancelled\n"
 fi
