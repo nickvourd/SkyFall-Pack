@@ -6,3 +6,8 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Restart nginx service
+  systemd:
+    name: nginx
+    state: restarted
