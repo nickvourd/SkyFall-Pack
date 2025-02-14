@@ -1,3 +1,3 @@
 # SkyFall-Pack
 
-Your Skyfall Infrastructure pack
+Your Skyfall Infrastructure Pack
