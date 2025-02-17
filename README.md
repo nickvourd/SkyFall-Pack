@@ -23,6 +23,8 @@ The following list explains the meaning of each pack:
 
 This project created with :heart: by [@nickvourd](https://x.com/nickvourd) && [@kavasilo](https://x.com/kavasilo).
 
+Special thanks to [@kyleavery_](https://x.com/kyleavery_) for all the valuable tips.
+
 ## Table of Contents
 - [SkyFall-Pack](#skyfall-pack)
   - [Description](#description)
