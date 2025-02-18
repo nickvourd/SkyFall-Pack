@@ -12,7 +12,7 @@ Your Skyfall Infrastructure Pack
 
 ## Description
 
-SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverages Cloudflare Workers as redirectors and an Azure VM as the teamerver.
+SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverages Cloudflare Workers as redirectors and an Azure VM as the teamserver.
 
 The following list explains the meaning of each pack:
 
