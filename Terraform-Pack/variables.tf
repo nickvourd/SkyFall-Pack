@@ -30,3 +30,10 @@ variable "dns_name" {
   description = "DNS name label for the VM's public IP"
   default     = "skyfall"
 }
+
+# Add size type variable
+variable "size" {
+  type        = string
+  description = "Azure VM size"
+  default     = "Standard_B1ms" 
+}

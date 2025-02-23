@@ -6,6 +6,7 @@ USERNAME=""
 PREFIX=""
 SSH_KEY=""
 DNS_NAME=""
+VM_SIZE=""
 PROJECT_ROOT="../"  # Navigate up from Script-Pack/ to SkyFall-Pack
 TFVARS_PATH="${PROJECT_ROOT}Terraform-Pack/terraform.tfvars"
 
@@ -82,9 +83,37 @@ CheckLocation() {
    exit 1
 }
 
+# Function to check if VM size type is valid
+CheckSize() {
+   local vm_size=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+   
+   # Array of valid Azure VM sizes
+    valid_sizes=(
+       "standard_b1ms"
+       "standard_b2s"
+       "standard_b2ms"    
+   )
+
+    # Check if provided VM size exists in valid_sizes
+   for valid_size in "${valid_sizes[@]}"; do
+       if [ "$vm_size" == "$valid_size" ]; then
+           VM_SIZE="$vm_size"
+           return 0
+       fi
+   done
+   
+   echo -e "\n[!] Error: Invalid Azure VM size provided\n"
+   echo -e "[*] Valid VM sizes are:\n"
+   printf '%s\n' "${valid_sizes[@]}"
+   echo ""
+   exit 1
+}
+       
+
+
 # Function to display usage
 usage() {
-   echo "Usage: $0 [-l|-location <value>] [-u|-username <value>] [-n|-name <value>] [-s|-ssh <value>] [-d|-dns <value>]"
+   echo "Usage: $0 [-l|-location <value>] [-u|-username <value>] [-n|-name <value>] [-s|-ssh <value>] [-d|-dns <value>] [-v|-vm <value>]"
    echo "All arguments are mandatory!"
    echo ""
    echo "Arguments:"
@@ -93,9 +122,10 @@ usage() {
    echo "  -n, -name        Resource name prefix"
    echo "  -s, -ssh         SSH key name"
    echo "  -d, -dns         DNS name prefix for public IP"
+   echo "  -v, -vm          VM size (optional) Default is Standard_B1ms"
    echo ""
    echo "Example with full flags:"
-   echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall"
+   echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall  -v Standard_B2s"
    echo ""
    echo "Example with short flags:"
    echo "  $0 -l westus2 -u nickvourd -n rt -s my-ssh-key -d skyfall"
@@ -126,6 +156,10 @@ while [[ $# -gt 0 ]]; do
            DNS_NAME="$2"
            shift 2
            ;;
+       -v|-vm)
+           CheckSize "$2"
+           shift 2
+           ;;
        *)
            echo "Error: Unknown parameter $1"
            usage
@@ -134,7 +168,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Check if all required parameters are provided
-if [ -z "$LOCATION" ] || [ -z "$USERNAME" ] || [ -z "$PREFIX" ] || [ -z "$SSH_KEY" ] || [ -z "$DNS_NAME" ]; then
+if [ -z "$LOCATION" ] || [ -z "$USERNAME" ] || [ -z "$PREFIX" ] || [ -z "$SSH_KEY" ] || [ -z "$DNS_NAME" ] || [ -z "$VM_SIZE" ]; then
    echo "Error: All parameters are required!"
    usage
 fi
@@ -161,6 +195,7 @@ username               = "$USERNAME"
 prefix                 = "$PREFIX"
 ssh_privkey           = "$SSH_KEY"
 dns_name              = "$DNS_NAME"
+size                  = "$VM_SIZE"
 EOF
 
 # Move temporary file to terraform.tfvars in Terraform-Pack
@@ -172,6 +207,7 @@ echo "Username: $USERNAME"
 echo "Resource Prefix: $PREFIX"
 echo "SSH Key Name: $SSH_KEY"
 echo "DNS Name: $DNS_NAME"
+echo "VM Size: $VM_SIZE"
 echo ""
 
 # Store current location
