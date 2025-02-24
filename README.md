@@ -25,6 +25,8 @@ This project created with :heart: by [@nickvourd](https://x.com/nickvourd) && [@
 
 Special thanks to [@kyleavery_](https://x.com/kyleavery_) for all the valuable tips.
 
+Special thanks to my frined [Juan Martinez Moreno](https://www.linkedin.com/in/jmartinezmoreno/) for all the contributions.
+
 ## Table of Contents
 - [SkyFall-Pack](#skyfall-pack)
   - [Description](#description)
