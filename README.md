@@ -17,7 +17,8 @@ SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverage
 
 ![Static Badge](https://img.shields.io/badge/Ansible-blue?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Terraform-green?style=flat&logoSize=auto)
-![Static Badge](https://img.shields.io/badge/Go-lang-cyan?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Go-cyan?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Bash-purple?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Version-1.0%20-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSkyFall-Pack%2Freleases)
 
 The following list explains the meaning of each pack:
