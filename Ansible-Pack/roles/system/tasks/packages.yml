@@ -17,3 +17,4 @@
     - proxychains
     - software-properties-common
     - magic-wormhole
+    - ca-certificates
