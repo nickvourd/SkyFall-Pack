@@ -16,3 +16,4 @@
     - wget
     - proxychains
     - software-properties-common
+    - magic-wormhole
