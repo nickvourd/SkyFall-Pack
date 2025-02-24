@@ -20,7 +20,7 @@ usage() {
     echo "Arguments:"
     echo "  -f, --file          Keystore filename"
     echo "  -p, --password      Keystore password"
-    echo "     --port           Teamserver port (default: 8443)"
+    echo "      --port           Teamserver port (default: 8443)"
     echo "  -c, --custom-header Custom header name (default: X-CSRF-TOKEN)"
     echo "  -s, --custom-secret Custom secret value (default: MySecretValue)"
     echo ""
