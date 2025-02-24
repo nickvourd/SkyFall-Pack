@@ -125,10 +125,10 @@ usage() {
    echo "  -v, -vm          VM size (optional) Default is Standard_B1ms"
    echo ""
    echo "Example with full flags:"
-   echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall  -v Standard_B2s"
+   echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall -vm Standard_B2s"
    echo ""
    echo "Example with short flags:"
-   echo "  $0 -l westus2 -u nickvourd -n rt -s my-ssh-key -d skyfall"
+   echo "  $0 -l westus2 -u nickvourd -n rt -s my-ssh-key -d skyfall -v Standard_B2s"
    echo ""
    exit 1
 }
