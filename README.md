@@ -97,6 +97,14 @@ npm create cloudflare
 ./WorkerMan build -t <teamserver_hostname> -w <worker_hostname> -c <custom_header> -s <secret_value>
 ```
 
+⚠️ Copy `wrangler.jsonc` and `index.js` to the appropriate directories.
+
+- Deploy the  wrangler
+
+```
+npm exec wrangler deploy
+```
+
 ## References
 
 - [(Re)visiting Cloudflare Workers for C2 by Marcello](https://byt3bl33d3r.substack.com/p/revisiting-cloudflare-workers-for)
