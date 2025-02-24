@@ -26,6 +26,16 @@ The following list explains the meaning of each pack:
 
 The authors and contributors of this project are not liable for any illegal use of the tool. It is intended for educational purposes only. Users are responsible for ensuring lawful usage.
 
+## Table of Contents
+- [SkyFall-Pack](#skyfall-pack)
+  - [Description](#description)
+  - [Disclaimer](#disclaimer)
+  - [Table of Contents](#table-of-contents)
+  - [Acknowledgement](#acknowledgement)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [References](#references)
+
 ## Acknowledgement
 
 This project created with :heart: by [@nickvourd](https://x.com/nickvourd) && [@kavasilo](https://x.com/kavasilo).
@@ -33,16 +43,6 @@ This project created with :heart: by [@nickvourd](https://x.com/nickvourd) && [@
 Special thanks to [@kyleavery_](https://x.com/kyleavery_) for all the valuable tips.
 
 Special thanks to my friend [Juan Martinez Moreno](https://www.linkedin.com/in/jmartinezmoreno/) for all the contributions.
-
-## Table of Contents
-- [SkyFall-Pack](#skyfall-pack)
-  - [Description](#description)
-  - [Disclaimer](#disclaimer)
-  - [Acknowledgement](#acknowledgement)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [References](#references)
 
 ## Installation
 
