@@ -15,8 +15,8 @@ Your Skyfall Infrastructure Pack
 
 SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverages Cloudflare Workers as redirectors and an Azure VM as the teamserver.
 
-![Static Badge](https://img.shields.io/badge/Ansible-blue?style=flat&logoSize=auto)
-![Static Badge](https://img.shields.io/badge/Terraform-green?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Ansible-green?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Terraform-blue?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Golang-cyan?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Bash-purple?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Version-1.0%20-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSkyFall-Pack%2Freleases)
