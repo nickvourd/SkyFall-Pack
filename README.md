@@ -102,7 +102,7 @@ npm create cloudflare
 
 ⚠️ Copy `wrangler.jsonc` and `index.js` to the appropriate directories.
 
-- Deploy Wrangler (from the Worker project's root directory)
+- Deploy Wrangler (execute from the Worker project's root directory)
 
 ```
 npm exec wrangler deploy
