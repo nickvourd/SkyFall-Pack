@@ -50,7 +50,7 @@ var buildArgument = &cobra.Command{
 		// Call function named BuildManager
 		teamserver, worker, name = Manager.BuildManager(teamserver, worker, name)
 
-		fmt.Print("[+] Building the configuration files...\n\n")
+		fmt.Print("[*] Building the configuration files...\n\n")
 
 		// Call function named IntToString
 		port2String := Converters.IntToString(int(port))
@@ -89,7 +89,7 @@ var buildArgument = &cobra.Command{
 		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.jsonc")+" file saved to: %s\n", Colors.BoldOrange(wranglerJsonPath))
 		fmt.Printf("[+] "+Colors.BoldGreen("index.js")+" file saved to: %s\n", Colors.BoldPink(indexJsPath))
 		fmt.Printf("[+] Nginx's "+Colors.BoldGreen("default")+" conf file saved to: %s\n\n", Colors.BoldCyan(nginxConfPath))
-		fmt.Printf("[+] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
+		fmt.Printf("[*] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
 
 		return nil
 	},
