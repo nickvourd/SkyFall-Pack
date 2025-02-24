@@ -93,7 +93,7 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 npm create cloudflare
 ```
 
-- Configure Cloudflare Worker
+- Configure Cloudflare Worker (Execute this on your local machine)
 
 ```
 ./WorkerMan build -t <teamserver_hostname> -w <worker_hostname> -c <custom_header> -s <secret_value>
