@@ -15,6 +15,8 @@ Your Skyfall Infrastructure Pack
 
 SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverages Cloudflare Workers as redirectors and an Azure VM as the teamserver.
 
+![Static Badge](https://img.shields.io/badge/Version-1.0%20-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSkyFall-Pack%2Freleases)
+
 The following list explains the meaning of each pack:
 
 - **Workers-Pack**: A Go-based pack that automates the generation of `wrangler.jsonc` and `index.js`.
