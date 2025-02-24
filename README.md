@@ -76,7 +76,7 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 - Azure VM (Team Server)
 
 ```
-./Scripts-Pack/setup.sh -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name>
+./Scripts-Pack/setup.sh -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name> -v <vm_size>
 ```
 
 - Configure Azure VM (Team Server)
