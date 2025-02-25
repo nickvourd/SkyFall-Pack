@@ -15,8 +15,6 @@
     - python3
     - wget
     - proxychains
-    - software-properties-common
     - magic-wormhole
     - ca-certificates
     - zip
-    - docker
