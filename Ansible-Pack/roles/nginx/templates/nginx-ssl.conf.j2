@@ -17,5 +17,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header {{ lookup('env', 'CUSTOM_HEADER') }} $http_{{ lookup('env', 'CUSTOM_HEADER_LOWER') }};
         proxy_set_header X-Forwarded-Proto $scheme;
+        
     }
 }
