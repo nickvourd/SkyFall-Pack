@@ -12,7 +12,7 @@ server {
         if ($http_{{ lookup('env', 'CUSTOM_HEADER_LOWER') }} != "{{ lookup('env', 'CUSTOM_SECRET') }}") {
             return 403;
         }
-        proxy_pass https://localhost:{{ lookup('env', 'TEAMSERVER_PORT') }};
+        proxy_pass {{ lookup('env', 'PROTOCOL') }}://localhost:{{ lookup('env', 'TEAMSERVER_PORT') }};
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header {{ lookup('env', 'CUSTOM_HEADER') }} $http_{{ lookup('env', 'CUSTOM_HEADER_LOWER') }};
