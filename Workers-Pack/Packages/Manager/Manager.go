@@ -48,7 +48,7 @@ func TemplateManager(teamserver string, worker string, name string, port string,
 	indexJs := Templates.BuildIndexJS(randomVariableName, randomVariableName2, randomVariableName3, customHeader)
 
 	// Call function named BuildNginxConf
-	nginxConf := Templates.BuildNginxConf(customHeader, customSecret, port, teamserver)
+	//nginxConf := Templates.BuildNginxConf(customHeader, customSecret, port, teamserver)
 
 	return wranglerJson, indexJs, nginxConf
 }
