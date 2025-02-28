@@ -101,7 +101,7 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 - Configure Azure VM (Team Server)
 
 ```
-./Scripts-Pack/run_ansible.sh -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value>
+./Scripts-Pack/run_ansible.sh -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http]
 ```
 
 - Cloudflare Worker
