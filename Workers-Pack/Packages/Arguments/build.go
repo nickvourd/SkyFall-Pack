@@ -77,7 +77,7 @@ var buildArgument = &cobra.Command{
 		indexJsPath, _ := Utils.GetAbsolutePath("index.js")
 
 		// Call function named GetAbsolutePath
-		nginxConfPath, _ := Utils.GetAbsolutePath("default")
+		//nginxConfPath, _ := Utils.GetAbsolutePath("default")
 
 		// Record the end time
 		buildEndTime := time.Now()
