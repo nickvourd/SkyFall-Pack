@@ -25,10 +25,10 @@ usage() {
     echo "  -s, --custom-secret  Custom secret value (default: MySecretValue)"
     echo ""
     echo "Example with full flags:"
-    echo "  $0 --file nickvourd --password mysecretpass --port 9443 --custom-header X-CSRF-TOKEN --custom-secret MySecretValue"
+    echo "  $0 --file nickvourd --password mysecretpass --port 9443 --custom-header X-CUSTOM-HEADER --custom-secret nickvourd"
     echo ""
     echo "Example with short flags:"
-    echo "  $0 -f nickvourd -p mysecretpass -c X-Custom-Header -s MySecretValue --port 8443"
+    echo "  $0 -f nickvourd -p mysecretpass -c X-CUSTOM-HEADER -s nickvourd --port 9443"
     echo ""
     exit 1
 }
