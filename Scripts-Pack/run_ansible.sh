@@ -14,7 +14,7 @@ convert_header() {
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 [-f|--file <keystore_filename>] [-p|--password <keystore_password>] [--port <teamserver_port>] [-c|--custom-header <header_name>] [-s|--custom-secret <secret_value>]"
+    echo "Usage: $0 [-f|--file <keystore_filename>] [-p|--password <keystore_password>] [--port <teamserver_port>] [-c|--custom-header <header_name>] [-s|--custom-secret <secret_value>] [--http]"
     echo "Arguments -f and -p are mandatory!"
     echo ""
     echo "Arguments:"
@@ -23,12 +23,13 @@ usage() {
     echo "      --port <int>                Teamserver port (default: 8443)"
     echo "  -c, --custom-header <string>    Custom header name (default: X-CSRF-TOKEN)"
     echo "  -s, --custom-secret <string>    Custom secret value (default: MySecretValue)"
+    echo "      --http                      Use HTTP instead of HTTPS (default: false)"
     echo ""
     echo "Example with full flags:"
-    echo "  $0 --file nickvourd --password mysecretpass --custom-header X-CUSTOM-HEADER --custom-secret SuperSecretValue --port 9443"
+    echo "  $0 --file nickvourd --password mysecretpass --custom-header X-CUSTOM-HEADER --custom-secret SuperSecretValue --port 9443 [--http]"
     echo ""
     echo "Example with short flags:"
-    echo "  $0 -f nickvourd -p mysecretpass -c X-CUSTOM-HEADER -s SuperSecretValue --port 9443"
+    echo "  $0 -f nickvourd -p mysecretpass -c X-CUSTOM-HEADER -s SuperSecretValue --port 9443 [--http]"
     echo ""
     exit 1
 }
@@ -39,6 +40,7 @@ KEYSTORE_PASS=""
 TEAMSERVER_PORT="8443"  # Default port
 CUSTOM_HEADER="X-CSRF-TOKEN"  # Default header
 CUSTOM_SECRET="MySecretValue"  # Default secret
+USE_HTTP=false  # Default to HTTPS
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -62,6 +64,10 @@ while [[ $# -gt 0 ]]; do
             CUSTOM_SECRET="$2"
             shift 2
             ;;
+        --http)
+            USE_HTTP=true
+            shift
+            ;;
         *)
             echo "Error: Unknown parameter $1"
             usage
@@ -73,6 +79,13 @@ done
 if [ -z "$KEYSTORE_FILE" ] || [ -z "$KEYSTORE_PASS" ]; then
     echo "Error: Keystore file and password parameters are required!"
     usage
+fi
+
+# Set protocol based on USE_HTTP flag
+if [ "$USE_HTTP" = true ]; then
+    PROTOCOL="http"
+else
+    PROTOCOL="https"
 fi
 
 # Check if Ansible is installed
@@ -102,6 +115,7 @@ export KEYSTORE_PASSWORD=$KEYSTORE_PASS
 export TEAMSERVER_PORT=$TEAMSERVER_PORT
 export CUSTOM_HEADER=$CUSTOM_HEADER
 export CUSTOM_SECRET=$CUSTOM_SECRET
+export PROTOCOL=$PROTOCOL
 
 # Change to Ansible directory
 cd "$PROJECT_ROOT/Ansible-Pack" || exit
@@ -126,6 +140,7 @@ echo "Teamserver Port: $TEAMSERVER_PORT"
 echo "Custom Header: $CUSTOM_HEADER"
 echo "Custom Header Lower: $CUSTOM_HEADER_LOWER"
 echo "Custom Secret: $CUSTOM_SECRET"
+echo "Protocol: $PROTOCOL"
 echo ""
 
 # Run ansible playbook
