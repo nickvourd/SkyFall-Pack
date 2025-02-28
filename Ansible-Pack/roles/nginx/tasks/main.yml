@@ -1,13 +1,3 @@
 ---
-- name: Create SSL Nginx configuration
-  template:
-    src: nginx-ssl.conf.j2
-    dest: /etc/nginx/sites-available/default
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Restart nginx service
-  systemd:
-    name: nginx
-    state: restarted
+- name: Include default nginx conf file configuration
+  include_tasks: default.yml
