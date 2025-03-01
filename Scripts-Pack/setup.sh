@@ -108,8 +108,6 @@ CheckSize() {
    echo ""
    exit 1
 }
-       
-
 
 # Function to display usage
 usage() {
