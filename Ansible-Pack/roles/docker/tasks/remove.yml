@@ -1,0 +1,13 @@
+---
+- name: Remove Docker packages
+  apt:
+    name:
+      - docker.io
+      - docker-doc
+      - docker-compose
+      - docker-compose-v2
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+  become: true
