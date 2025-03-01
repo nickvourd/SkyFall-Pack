@@ -2,9 +2,8 @@
 - name: Install Docker packages
   apt:
     name:
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
+      - docker
+      - docker-compose
     state: present
     update_cache: yes
   become: true
