@@ -10,3 +10,6 @@
 
 - name: Include update apt package cache (after adding Docker repository)
   include_tasks: update.yml
+
+- name: Include Docker packages installation
+  include_tasks: install.yml
