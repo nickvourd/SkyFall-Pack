@@ -1,3 +1,14 @@
+# HTTP server block returning 403 Forbidden
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ lookup('env', 'VM_FQDN') }};
+
+    # Return 403 Forbidden for all HTTP requests
+    return 403;
+}
+
+# HTTPS server block with custom header authorization and proxy setup
 server {
     listen 443 ssl;
     server_name {{ lookup('env', 'VM_FQDN') }};
