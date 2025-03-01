@@ -2,6 +2,11 @@
 - name: Include remove old Docker packages 
   include_tasks: remove.yml
 
-- name: Include update packages
+- name: Include apt update packages
   include_tasks: update.yml
 
+- name: Include Docker configuration
+  include_tasks: conf.yml
+
+- name: Include update apt package cache (after adding Docker repository)
+  include_tasks: update.yml
