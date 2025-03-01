@@ -1,3 +1,7 @@
 ---
 - name: Include remove old Docker packages 
   include_tasks: remove.yml
+
+- name: Include update packages
+  include_tasks: update.yml
+
