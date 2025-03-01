@@ -87,7 +87,7 @@ var buildArgument = &cobra.Command{
 
 		// Print the output
 		fmt.Printf("[+] "+Colors.BoldGreen("wrangler.jsonc")+" file saved to: %s\n", Colors.BoldOrange(wranglerJsonPath))
-		fmt.Printf("[+] "+Colors.BoldGreen("index.js")+" file saved to: %s\n", Colors.BoldPink(indexJsPath))
+		fmt.Printf("[+] "+Colors.BoldGreen("index.js")+" file saved to: %s\n\n", Colors.BoldPink(indexJsPath))
 		//fmt.Printf("[+] Nginx's "+Colors.BoldGreen("default")+" conf file saved to: %s\n\n", Colors.BoldCyan(nginxConfPath))
 		fmt.Printf("[*] Build completed in: %s\n\n", Colors.BoldYellow(buildDurationTime))
 
