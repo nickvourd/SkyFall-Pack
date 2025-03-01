@@ -1,3 +1,6 @@
 ---
-- name: Include default nginx conf file 
+- name: Include SSL Nginx conf file 
   include_tasks: default.yml
+
+- name: Include Nginx conf file
+  include_tasks: conf.yml
