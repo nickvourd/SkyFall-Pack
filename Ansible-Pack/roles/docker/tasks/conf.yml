@@ -1,1 +1,27 @@
 ---
+- name: Ensure /etc/apt/keyrings directory exists with correct permissions
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Download Docker GPG key
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+  become: true
+
+- name: Set read permission for Docker GPG key
+  file:
+    path: /etc/apt/keyrings/docker.asc
+    mode: 'a+r'
+  become: true
+
+- name: Add Docker repository to apt sources
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
+  become: true
