@@ -107,7 +107,7 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 - Cloudflare Worker
 
 ```
-npm create cloudflare
+npm create cloudflare -y
 ```
 
 - Configure Cloudflare Worker (Execute this on your local machine)
