@@ -20,3 +20,4 @@
     - magic-wormhole
     - ca-certificates
     - zip
+    - pipenv
