@@ -21,3 +21,4 @@
     - ca-certificates
     - zip
     - pipenv
+    - pipx
