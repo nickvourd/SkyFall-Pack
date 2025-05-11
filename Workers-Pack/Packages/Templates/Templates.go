@@ -2,13 +2,11 @@ package Templates
 
 import (
 	"fmt"
-	"strings"
 )
 
 // Declare variables
 var wranglerJson string
 var indexJs string
-var nginxConf string
 
 // BuildWranglerJSON function
 func BuildWranglerJSON(teamserver string, worker string, workername string, customSecret string, header string, ts string, endpoint string, date string) string {
@@ -46,9 +44,25 @@ addEventListener('fetch', event => {
 async function handleRequest(event) {
   const request = event.request
   
+  // Check if the method is GET or POST
+  if (request.method !== 'GET' && request.method !== 'POST') {
+    return new Response(JSON.stringify(
+      {
+        "Error": "Method not allowed."
+      }, null, 2),
+      {
+        status: 405,
+        headers: {
+          "content-type": "application/json;charset=UTF-8",
+          "Allow": "GET, POST"
+        }
+      }
+    )
+  }
+  
   const clonedRequest = request.clone()
   
-  const path = request.url.replace(%s,"")
+  const path = request.url.replace(%s, "")
   const destUrl = %s + path 
 
   const psk = request.headers.get(PRESHARED_AUTH_HEADER_KEY)      
@@ -64,7 +78,7 @@ async function handleRequest(event) {
         
         return response
       } 
-      else {
+      else if (request.method === 'GET') {
         const response = await fetch(destUrl, {
           method: 'GET',
           headers: request.headers
@@ -90,32 +104,4 @@ async function handleRequest(event) {
 }`, customHeader, endpoint, ts, header)
 
 	return indexJs
-}
-
-// BuildNginxConf function
-func BuildNginxConf(customHeader string, customSecret string, port string, teamserver string) string {
-	// Replace all dashes of the string with underscores
-	customHeader2 := strings.ReplaceAll(customHeader, "-", "_")
-
-	nginxConf += fmt.Sprintf(`server {
-    listen 443 ssl;
-    server_name %s;
-    ssl_certificate /etc/letsencrypt/live/%s/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/%s/privkey.pem;
-    ssl_protocols TLSv1.3;
-    
-    location / {
-        if ($http_%s != "%s") {
-            return 403;
-        }
-        proxy_pass https://localhost:%s;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header %s $http_%s;
-    }
-}
-  
-  `, teamserver, teamserver, teamserver, strings.ToLower(customHeader2), customSecret, port, customHeader, strings.ToLower(customHeader2))
-
-	return nginxConf
 }

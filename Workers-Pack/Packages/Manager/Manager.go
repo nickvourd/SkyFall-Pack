@@ -34,7 +34,7 @@ func BuildManager(teamserver string, worker string, name string) (string, string
 }
 
 // TemplateManager function
-func TemplateManager(teamserver string, worker string, name string, port string, customHeader string, customSecret string) (string, string) {
+func TemplateManager(teamserver string, worker string, name string, customHeader string, customSecret string) (string, string) {
 	// Call function named GenerateRandomVariableName
 	randomVariableName, randomVariableName2, randomVariableName3 := Random.GenerateRandomVariableName()
 
@@ -46,9 +46,6 @@ func TemplateManager(teamserver string, worker string, name string, port string,
 
 	// Call function named BuildIndexJS
 	indexJs := Templates.BuildIndexJS(randomVariableName, randomVariableName2, randomVariableName3, customHeader)
-
-	// Call function named BuildNginxConf
-	//nginxConf := Templates.BuildNginxConf(customHeader, customSecret, port, teamserver)
 
 	return wranglerJson, indexJs
 }

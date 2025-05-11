@@ -2,7 +2,6 @@ package Arguments
 
 import (
 	"WorkerMan/Packages/Colors"
-	"WorkerMan/Packages/Converters"
 	"WorkerMan/Packages/Manager"
 	"WorkerMan/Packages/Output"
 	"WorkerMan/Packages/Utils"
@@ -43,7 +42,6 @@ var buildArgument = &cobra.Command{
 		teamserver, _ := cmd.Flags().GetString("teamserver")
 		worker, _ := cmd.Flags().GetString("worker")
 		name, _ := cmd.Flags().GetString("name")
-		port, _ := cmd.Flags().GetInt32("port")
 		customHeader, _ := cmd.Flags().GetString("custom-header")
 		customSecret, _ := cmd.Flags().GetString("custom-secret")
 
@@ -52,14 +50,11 @@ var buildArgument = &cobra.Command{
 
 		fmt.Print("[*] Building the configuration files...\n\n")
 
-		// Call function named IntToString
-		port2String := Converters.IntToString(int(port))
-
 		// Record the start time
 		buildStartTime := time.Now()
 
 		// Call function named TemplateManager
-		wranglerJson, indexJs := Manager.TemplateManager(teamserver, worker, name, port2String, customHeader, customSecret)
+		wranglerJson, indexJs := Manager.TemplateManager(teamserver, worker, name, customHeader, customSecret)
 
 		// Call function named WriteOutput2File
 		Output.WriteOutput2File(wranglerJson, "wrangler.jsonc")

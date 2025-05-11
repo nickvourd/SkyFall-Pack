@@ -9,7 +9,7 @@
 *.dylib
 *WorkerMan
 *WorkerMan.exe
-*wrangler.json
+*wrangler.jsonc
 *index.js
 *default
 
