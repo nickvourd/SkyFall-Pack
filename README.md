@@ -113,7 +113,7 @@ npm create cloudflare -y
 - Configure Cloudflare Worker (Execute this on your local machine)
 
 ```
-./WorkerMan build -t <teamserver_hostname> -w <worker_hostname> -c <custom_header> -s <secret_value>
+./WorkerMan build -t <teamserver_url> -w <worker_url> -c <custom_header> -s <secret_value>
 ```
 
 ⚠️ Copy `wrangler.jsonc` and `index.js` to the appropriate directories.
