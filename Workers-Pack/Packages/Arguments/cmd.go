@@ -65,7 +65,7 @@ func init() {
 	buildArgument.Flags().StringP("teamserver", "t", "", "Set teamserver hostname/URL")
 	buildArgument.Flags().StringP("worker", "w", "", "Set worker hostname/URL")
 	buildArgument.Flags().StringP("name", "n", "", "Set worker name")
-	//buildArgument.Flags().Int32P("port", "p", 8443, "Set port for the teamserver")
+	buildArgument.Flags().Int32P("port", "p", 8443, "Set port for the teamserver")
 	buildArgument.Flags().StringP("custom-header", "c", "X-CSRF-TOKEN", "Set custom header")
 	buildArgument.Flags().StringP("custom-secret", "s", "MySecretValue", "Set custom secret value")
 }
