@@ -120,7 +120,7 @@ usage() {
    echo "  -n, -name        Resource name prefix"
    echo "  -s, -ssh         SSH key name"
    echo "  -d, -dns         DNS name prefix for public IP"
-   echo "  -v, -vm          VM size (optional) Default is Standard_B1ms"
+   echo "  -v, -vm          VM size (optional) (Default is Standard_B1ms)"
    echo ""
    echo "Example with full flags:"
    echo "  $0 -location westus2 -username nickvourd -name rt -ssh my-ssh-key -dns skyfall -vm Standard_B2s"
