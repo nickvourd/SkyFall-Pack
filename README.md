@@ -28,6 +28,8 @@ The following list explains the meaning of each pack:
 - **Terraform-Pack**: A Terraform pack that contains all the code for deploying the Azure VM.
 - **Ansible-Pack**: An Ansible pack that contains all the code for configuring the Azure VM.
 
+ℹ️ For more details, refer to the related [blog post](https://medium.com/@nickvourd/i-need-a-c2-infrastructure-immediately-as-in-yesterday-23bc5bd76fbe).
+
 > If you find any bugs, don’t hesitate to [report them](https://github.com/nickvourd/SkyFall-Pack/issues). Your feedback is valuable in improving the quality of this project!
 
 ## Disclaimer
