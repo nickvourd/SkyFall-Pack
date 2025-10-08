@@ -1,0 +1,64 @@
+---
+- name: Ensure project directory exists
+  file:
+    path: /opt/random_c2_profile
+    state: directory
+    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
+    mode: '0755'
+  become: yes
+
+- name: Ensure output directory exists and is writable
+  file:
+    path: /opt/random_c2_profile/output
+    state: directory
+    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
+    group: "{{ project_owner | default(ansible_user | default('root')) }}"
+    mode: '0775'
+  become: yes
+
+- name: Initialize Pipenv with Python 3.10 (creates Pipfile)
+  command: "pipenv install --python 3.10"
+  args:
+    chdir: /opt/random_c2_profile
+    creates: /opt/random_c2_profile/Pipfile
+  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
+
+- name: Run random_c2profile.py inside pipenv virtualenv
+  command: "pipenv run python random_c2profile.py"
+  args:
+    chdir: /opt/random_c2_profile
+  register: run_result
+  become: yes
+
+- name: Show script stdout
+  debug:
+    var: run_result.stdout_lines
+
+- name: Show script stderr (if any)
+  debug:
+    var: run_result.stderr_lines
+
+- name: Find all .profile files
+  find:
+    paths: /opt/random_c2_profile/output
+    patterns: "*.profile"
+    recurse: no
+  register: profile_files
+  become: yes
+
+- name: Sort .profile files by modification time
+  set_fact:
+    sorted_profiles: "{{ profile_files.files | sort(attribute='mtime', reverse=True) }}"
+
+- name: Rename latest .profile file to malleable.profile and move to /opt
+  command: mv "{{ sorted_profiles[0].path }}" /opt/malleable.profile
+  when: sorted_profiles | length > 0
+  become: yes
+
+- name: Ensure /opt/malleable.profile has correct ownership and permissions
+  file:
+    path: /opt/malleable.profile
+    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
+    group: "{{ project_owner | default(ansible_user | default('root')) }}"
+    mode: '0644'
+  become: yes
