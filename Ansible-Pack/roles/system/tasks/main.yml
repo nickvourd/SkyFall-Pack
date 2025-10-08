@@ -13,3 +13,6 @@
 
 - name: Include Keystore generation
   include_tasks: keystore.yml
+
+- name: Include random Malleable profile GitHub project
+  include_tasks: cloner.yml
