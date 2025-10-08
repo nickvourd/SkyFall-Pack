@@ -16,17 +16,11 @@
     mode: '0775'
   become: yes
 
-- name: Initialize Pipenv with Python 3.10 (creates Pipfile)
+- name: Initialize Pipenv environment with Python 3.10 and install dependencies
   command: "pipenv install --python 3.10"
   args:
     chdir: /opt/random_c2_profile
     creates: /opt/random_c2_profile/Pipfile
-  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
-
-- name: Select Python 3.10 for the Pipenv environment
-  command: "pipenv --python 3.10"
-  args:
-    chdir: /opt/random_c2_profile
   become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
 
 - name: Install dependencies from Pipfile
