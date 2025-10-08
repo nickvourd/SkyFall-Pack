@@ -1,0 +1,12 @@
+---
+- name: Upgrade pip to latest version
+  pip:
+    name: pip
+    state: latest
+    executable: pip3
+
+- name: Upgrade pipenv to latest version
+  pip:
+    name: pipenv
+    state: latest
+    executable: pip3
