@@ -16,3 +16,6 @@
 
 - name: Include random Malleable profile GitHub project
   include_tasks: cloner.yml
+
+- name: Include Python environment setup
+  include_tasks: python.yml
