@@ -23,6 +23,12 @@
     creates: /opt/random_c2_profile/Pipfile
   become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
 
+- name: Select Python 3.10 for the Pipenv environment
+  command: "pipenv --python 3.10"
+  args:
+    chdir: /opt/random_c2_profile
+  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
+
 - name: Install dependencies from Pipfile
   command: "pipenv install"
   args:
