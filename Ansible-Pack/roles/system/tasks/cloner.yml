@@ -1,4 +1,15 @@
 ---
+- name: Check if /opt/random_c2_profile exists
+  stat:
+    path: /opt/random_c2_profile
+  register: repo_dir
+
+- name: Remove existing /opt/random_c2_profile (if present)
+  file:
+    path: /opt/random_c2_profile
+    state: absent
+  when: repo_dir.stat.exists
+  
 - name: Clone random_c2_profile repository
   git:
     repo: https://github.com/nickvourd/random_c2_profile
