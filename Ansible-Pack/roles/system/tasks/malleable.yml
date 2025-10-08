@@ -23,6 +23,12 @@
     creates: /opt/random_c2_profile/Pipfile
   become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
 
+- name: Install dependencies from Pipfile
+  command: "pipenv install"
+  args:
+    chdir: /opt/random_c2_profile
+  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
+
 - name: Run random_c2profile.py inside pipenv virtualenv
   command: "pipenv run python random_c2profile.py"
   args:
