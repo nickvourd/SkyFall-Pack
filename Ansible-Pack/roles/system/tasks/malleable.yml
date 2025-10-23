@@ -17,7 +17,7 @@
   become: yes
 
 - name: Initialize Pipenv environment with Python 3.10 and install dependencies
-  command: "pipenv install --python 3.10"
+  command: "pipenv install --python 3.12"
   args:
     chdir: /opt/random_c2_profile
     creates: /opt/random_c2_profile/Pipfile
