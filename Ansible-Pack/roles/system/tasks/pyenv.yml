@@ -23,17 +23,13 @@
     update_cache: yes
 
 - name: Install pyenv using the official installer
-  become: false
   shell: curl https://pyenv.run | bash
   args:
     executable: /bin/bash
-  environment:
-    HOME: "{{ ansible_env.HOME }}"
-  when: not ansible_facts['env']['HOME'] | regex_search('root')
 
 - name: Add pyenv initialization to .bashrc
   lineinfile:
-    dest: "{{ ansible_env.HOME }}/.bashrc"
+    dest: /root/.bashrc
     line: "{{ item }}"
     create: yes
     insertafter: EOF
@@ -42,11 +38,10 @@
     - 'eval "$(pyenv init --path)"'
     - 'eval "$(pyenv init -)"'
     - 'eval "$(pyenv virtualenv-init -)"'
-  become: false
 
 - name: Ensure pyenv environment variables are active for subsequent tasks
   shell: |
-    export PATH="$HOME/.pyenv/bin:$PATH"
+    export PATH="/root/.pyenv/bin:$PATH"
     eval "$(pyenv init --path)"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
@@ -55,6 +50,3 @@
     pyenv local 3.12.0
   args:
     executable: /bin/bash
-  become: false
-  environment:
-    HOME: "{{ ansible_env.HOME }}"
