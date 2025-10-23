@@ -1,45 +1,41 @@
 ---
 - name: Install required packages
-  hosts: all
-  become: yes
-  tasks:
-    - name: Install required packages
-      apt:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      loop:
-        - snapd
-        - openjdk-11-jdk
-        - net-tools
-        - nginx
-        - git
-        - curl
-        - tmux
-        - tmuxp
-        - vim
-        - python3
-        - python3-pip
-        - python3-virtualenv
-        - wget
-        - proxychains
-        - magic-wormhole
-        - ca-certificates
-        - zip
-        - pipenv
-        - pipx
-        - tar
-        - make
-        - build-essential
-        - libssl-dev
-        - zlib1g-dev
-        - libbz2-dev
-        - libreadline-dev
-        - libsqlite3-dev
-        - llvm
-        - libncurses5-dev
-        - libncursesw5-dev
-        - xz-utils
-        - tk-dev
-        - libffi-dev
-        - liblzma-dev
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - snapd
+    - openjdk-11-jdk
+    - net-tools
+    - nginx
+    - git
+    - curl
+    - tmux
+    - tmuxp
+    - vim
+    - python3
+    - python3-pip
+    - python3-virtualenv
+    - wget
+    - proxychains
+    - magic-wormhole
+    - ca-certificates
+    - zip
+    - pipenv
+    - pipx
+    - tar
+    - make
+    - build-essential
+    - libssl-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - llvm
+    - libncurses5-dev
+    - libncursesw5-dev
+    - xz-utils
+    - tk-dev
+    - libffi-dev
+    - liblzma-dev
