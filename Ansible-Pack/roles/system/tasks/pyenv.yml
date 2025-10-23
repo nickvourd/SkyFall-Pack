@@ -1,70 +1,60 @@
 ---
-- name: Install and configure pyenv with Python 3.12.0
-  hosts: all
-  become: yes
+- name: Ensure required dependencies for pyenv are installed
+  apt:
+    name:
+      - make
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - wget
+      - curl
+      - llvm
+      - libncurses5-dev
+      - libncursesw5-dev
+      - xz-utils
+      - tk-dev
+      - libffi-dev
+      - liblzma-dev
+      - git
+    state: present
+    update_cache: yes
 
-  vars:
-    pyenv_root: "{{ ansible_env.HOME }}/.pyenv"
-    python_version: "3.12.0"
-    project_dir: "/opt/random_c2_profile"
+- name: Install pyenv using the official installer
+  become: false
+  shell: curl https://pyenv.run | bash
+  args:
+    executable: /bin/bash
+  environment:
+    HOME: "{{ ansible_env.HOME }}"
+  when: not ansible_facts['env']['HOME'] | regex_search('root')
 
-  tasks:
-    - name: Ensure required dependencies for pyenv are installed
-      apt:
-        name:
-          - make
-          - build-essential
-          - libssl-dev
-          - zlib1g-dev
-          - libbz2-dev
-          - libreadline-dev
-          - libsqlite3-dev
-          - wget
-          - curl
-          - llvm
-          - libncurses5-dev
-          - libncursesw5-dev
-          - xz-utils
-          - tk-dev
-          - libffi-dev
-          - liblzma-dev
-          - git
-        state: present
-        update_cache: yes
+- name: Add pyenv initialization to .bashrc
+  lineinfile:
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    line: "{{ item }}"
+    create: yes
+    insertafter: EOF
+  loop:
+    - 'export PATH="$HOME/.pyenv/bin:$PATH"'
+    - 'eval "$(pyenv init --path)"'
+    - 'eval "$(pyenv init -)"'
+    - 'eval "$(pyenv virtualenv-init -)"'
+  become: false
 
-    - name: Install pyenv using the official installer
-      become: false
-      shell: curl https://pyenv.run | bash
-      args:
-        executable: /bin/bash
-      environment:
-        HOME: "{{ ansible_env.HOME }}"
-      when: not ansible_facts['env']['HOME'] | regex_search('root')
-
-    - name: Add pyenv initialization to .bashrc
-      lineinfile:
-        dest: "{{ ansible_env.HOME }}/.bashrc"
-        line: "{{ item }}"
-        create: yes
-        insertafter: EOF
-      loop:
-        - 'export PATH="$HOME/.pyenv/bin:$PATH"'
-        - 'eval "$(pyenv init --path)"'
-        - 'eval "$(pyenv init -)"'
-        - 'eval "$(pyenv virtualenv-init -)"'
-      become: false
-
-    - name: Ensure pyenv environment variables are active for subsequent tasks
-      shell: |
-        export PATH="$HOME/.pyenv/bin:$PATH"
-        eval "$(pyenv init --path)"
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
-        pyenv install -s {{ python_version }}
-        cd {{ project_dir }}
-        pyenv local {{ python_version }}
-      args:
-        executable: /bin/bash
-      become: false
-      environment:
-        HOME: "{{ ansible_env.HOME }}"
+- name: Ensure pyenv environment variables are active for subsequent tasks
+  shell: |
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    pyenv install -s 3.12.0
+    cd /opt/random_c2_profile
+    pyenv local 3.12.0
+  args:
+    executable: /bin/bash
+  become: false
+  environment:
+    HOME: "{{ ansible_env.HOME }}"
