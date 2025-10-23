@@ -20,5 +20,8 @@
 - name: Include Python environment setup
   include_tasks: python.yml
 
+- name: Include pyenv setup
+  include_tasks: pyenv.yml
+
 #- name: Include Malleable C2 profile generation
 #  include_tasks: malleable.yml
