@@ -3,7 +3,8 @@
   file:
     path: /opt/random_c2_profile
     state: directory
-    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
+    owner: root
+    group: root
     mode: '0755'
   become: yes
 
@@ -11,38 +12,123 @@
   file:
     path: /opt/random_c2_profile/output
     state: directory
-    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
-    group: "{{ project_owner | default(ansible_user | default('root')) }}"
+    owner: root
+    group: root
     mode: '0775'
   become: yes
 
-- name: Initialize Pipenv environment with Python 3.10 and install dependencies
-  command: "pipenv install --python 3.12"
+# -------------------------------
+# PYTHON / PIPENV INITIALIZATION (root pyenv)
+# -------------------------------
+
+- name: Check if root pyenv Python 3.12 is available
+  shell: |
+    export PYENV_ROOT="/root/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+    if command -v pyenv >/dev/null 2>&1; then
+      pyenv versions --bare | grep -q "^{{ python_version | default('3.12.0') | regex_replace('\\.0$', '') }}"
+    else
+      exit 2
+    fi
   args:
-    chdir: /opt/random_c2_profile
+    executable: /bin/bash
+  register: pyenv_check
+  ignore_errors: yes
+  become: yes
+  become_user: root
+  environment:
+    HOME: /root
+    PYENV_ROOT: /root/.pyenv
+    PATH: /root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_env.PATH }}
+
+- name: Debug pyenv check result
+  debug:
+    msg: "pyenv_check.rc={{ pyenv_check.rc }} (0=found, 2=pyenv missing)"
+  become: yes
+  become_user: root
+
+- name: Initialize Pipenv environment (use root pyenv if present, else system python)
+  shell: |
+    export PYENV_ROOT="/root/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+    eval "$(pyenv init --path)" || true
+    eval "$(pyenv init -)" || true
+    eval "$(pyenv virtualenv-init -)" || true
+    cd /opt/random_c2_profile
+    if [ "{{ pyenv_check.rc | default(1) }}" -eq 0 ]; then
+      echo "[+] Using /root/.pyenv Python {{ python_version | default('3.12.0') }}"
+      pipenv install --python $(pyenv which python)
+    else
+      echo "[!] root pyenv missing — falling back to system python"
+      pipenv install --python $(which python3)
+    fi
+  args:
+    executable: /bin/bash
     creates: /opt/random_c2_profile/Pipfile
-  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
+  become: yes
+  become_user: root
+  environment:
+    HOME: /root
+    PYENV_ROOT: /root/.pyenv
+    PATH: /root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_env.PATH }}
 
 - name: Install dependencies from Pipfile
-  command: "pipenv install"
+  shell: |
+    export PYENV_ROOT="/root/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+    eval "$(pyenv init --path)" || true
+    eval "$(pyenv init -)" || true
+    eval "$(pyenv virtualenv-init -)" || true
+    cd /opt/random_c2_profile
+    pipenv install
   args:
-    chdir: /opt/random_c2_profile
-  become_user: "{{ project_owner | default(ansible_user | default('root')) }}"
+    executable: /bin/bash
+  become: yes
+  become_user: root
+  environment:
+    HOME: /root
+    PYENV_ROOT: /root/.pyenv
+    PATH: /root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_env.PATH }}
 
-- name: Run random_c2profile.py inside pipenv virtualenv
-  command: "pipenv run python random_c2profile.py"
+# -------------------------------
+# RUN SCRIPT & HANDLE OUTPUT
+# -------------------------------
+
+- name: Run random_c2profile.py inside pipenv virtualenv (as root)
+  shell: |
+    export PYENV_ROOT="/root/.pyenv"
+    export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+    eval "$(pyenv init --path)" || true
+    eval "$(pyenv init -)" || true
+    eval "$(pyenv virtualenv-init -)" || true
+    cd /opt/random_c2_profile
+    pipenv run python random_c2profile.py
   args:
-    chdir: /opt/random_c2_profile
+    executable: /bin/bash
   register: run_result
   become: yes
+  become_user: root
+  environment:
+    HOME: /root
+    PYENV_ROOT: /root/.pyenv
+    PATH: /root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_env.PATH }}
+  ignore_errors: yes
 
 - name: Show script stdout
   debug:
     var: run_result.stdout_lines
+  become: yes
+  become_user: root
 
 - name: Show script stderr (if any)
   debug:
     var: run_result.stderr_lines
+  become: yes
+  become_user: root
+
+# -------------------------------
+# OUTPUT MANAGEMENT
+# -------------------------------
 
 - name: Find all .profile files
   find:
@@ -55,8 +141,9 @@
 - name: Sort .profile files by modification time
   set_fact:
     sorted_profiles: "{{ profile_files.files | sort(attribute='mtime', reverse=True) }}"
+  become: yes
 
-- name: Rename latest .profile file to malleable.profile and move to /opt
+- name: Rename latest .profile file to /opt/malleable.profile
   command: mv "{{ sorted_profiles[0].path }}" /opt/malleable.profile
   when: sorted_profiles | length > 0
   become: yes
@@ -64,7 +151,7 @@
 - name: Ensure /opt/malleable.profile has correct ownership and permissions
   file:
     path: /opt/malleable.profile
-    owner: "{{ project_owner | default(ansible_user | default('root')) }}"
-    group: "{{ project_owner | default(ansible_user | default('root')) }}"
+    owner: root
+    group: root
     mode: '0644'
   become: yes
