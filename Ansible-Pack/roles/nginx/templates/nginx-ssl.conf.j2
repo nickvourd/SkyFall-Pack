@@ -14,7 +14,7 @@ server {
     server_name {{ lookup('env', 'VM_FQDN') }};
     ssl_certificate /etc/letsencrypt/live/{{ lookup('env', 'VM_FQDN') }}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{{ lookup('env', 'VM_FQDN') }}/privkey.pem;
-    ssl_protocols TLSv1.3;
+    ssl_protocols TLSv1.2 TLSv1.3;
 
     root /var/www/html;
     index index.html index.htm;
