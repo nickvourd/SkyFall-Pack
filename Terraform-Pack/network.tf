@@ -19,6 +19,7 @@ resource "azurerm_public_ip" "main" {
   name                = "pip-${var.prefix}-${random_string.main.result}"
   location            = var.resource_group_location
   resource_group_name = azurerm_resource_group.main.name
+  sku                 = "Standard"
   allocation_method   = "Static"
   domain_name_label   = "${var.dns_name}-${random_string.main.result}"
 }
