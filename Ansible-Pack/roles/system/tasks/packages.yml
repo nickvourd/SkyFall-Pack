@@ -6,7 +6,7 @@
     update_cache: yes
   loop:
     - snapd
-    - openjdk-11-jdk
+    - openjdk-17-jdk
     - net-tools
     - nginx
     - git
