@@ -39,7 +39,7 @@
   environment:
     HOME: /root
     PYENV_ROOT: /root/.pyenv
-    PATH: /root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_env.PATH }}
+    PATH: "/root/.pyenv/bin:/root/.pyenv/shims:{{ ansible_facts['env']['PATH'] }}"
 
 - name: Debug pyenv check result
   debug:
