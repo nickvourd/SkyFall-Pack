@@ -7,32 +7,46 @@
 
 - name: Include snapd configuration
   include_tasks: snapd.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include certbot installation and configuration
   include_tasks: certbot.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include Keystore generation
   include_tasks: keystore.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include random Malleable profile GitHub project
   include_tasks: cloner.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include Python environment setup
   include_tasks: python.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include pyenv setup
   include_tasks: pyenv.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include Malleable C2 profile generation
   include_tasks: malleable.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Deploy Cobalt Strike
   include_tasks: cobalt_strike.yml
-  when: cs_license_key is defined and cs_license_key | length > 0
+  when:
+    - cs_license_key is defined
+    - cs_license_key | length > 0
+    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Configure Malleable C2 profile
   include_tasks: config_malleable.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Finalize Cobalt Strike server configuration
   include_tasks: final_ts.yml
-  when: cs_license_key is defined and cs_license_key | length > 0
+  when:
+    - cs_license_key is defined
+    - cs_license_key | length > 0
+    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
