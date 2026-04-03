@@ -1,6 +1,8 @@
 ---
 - name: Include SSL Nginx conf file 
   include_tasks: default.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Include Nginx conf file
   include_tasks: conf.yml
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
