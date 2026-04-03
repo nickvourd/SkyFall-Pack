@@ -64,7 +64,6 @@ func init() {
 	buildArgument.Flags().SortFlags = true
 	buildArgument.Flags().StringP("teamserver", "t", "", "Set teamserver hostname/URL")
 	buildArgument.Flags().StringP("worker", "w", "", "Set worker hostname/URL")
-	buildArgument.Flags().StringP("name", "n", "", "Set worker name")
 	buildArgument.Flags().StringP("custom-header", "c", "X-CSRF-TOKEN", "Set custom header")
 	buildArgument.Flags().StringP("custom-secret", "s", "MySecretValue", "Set custom secret value")
 }
