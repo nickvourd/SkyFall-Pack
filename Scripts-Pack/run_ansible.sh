@@ -285,7 +285,10 @@ ANSIBLE_CMD="ansible-playbook -i inventory/hosts.yml setup.yml -vv"
 
 # If a CS archive was downloaded, pass its path and the remote install dir as extra vars
 if [ -n "$CS_DIST_PATH" ]; then
-    ANSIBLE_CMD="$ANSIBLE_CMD -e cs_dist_path='$CS_DIST_PATH' -e cs_install_dir='$CS_INSTALL_DIR'"
+    ANSIBLE_CMD="$ANSIBLE_CMD \
+      -e cs_dist_path='$CS_DIST_PATH' \
+      -e cs_install_dir='$CS_INSTALL_DIR' \
+      -e cs_license_key='$CS_LICENSE_KEY'"
 fi
 
 # Run ansible playbook
