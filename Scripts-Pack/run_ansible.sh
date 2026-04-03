@@ -169,7 +169,7 @@ if [ "$USE_HTTP" = false ]; then
     echo "Custom Header:        $CUSTOM_HEADER"
     echo "Custom Header Lower:  $CUSTOM_HEADER_LOWER"
     echo "Custom Secret:        $CUSTOM_SECRET"
-    echo "CS License Key:          $CS_LICENSE_KEY"
+    echo "CS License Key:       $CS_LICENSE_KEY"
     echo "CS Install Dir:       $CS_INSTALL_DIR"
 fi
 
