@@ -8,7 +8,7 @@ import (
 )
 
 // BuildManager function
-func BuildManager(teamserver string, worker string, name string) (string, string, string) {
+func BuildManager(teamserver string, worker string) (string, string, string) {
 	// Call function named MandatoryFlag
 	Protection.MandatoryFlag(teamserver, "t", "teamserver")
 
@@ -21,14 +21,8 @@ func BuildManager(teamserver string, worker string, name string) (string, string
 	// Call function named ExtractFQDN
 	worker = Protection.ExtractFQDN(worker)
 
-	// if name is empty
-	if name == "" {
-		// Call function named ExtractWorkerName
-		name = Protection.ExtractWorkerName(worker)
-	} else { // if name is not empty
-		// Call function named CompareNameWithWorker
-		name = Protection.CompareNameWithWorker(name, worker)
-	}
+	// Call function named ExtractWorkerName
+	name := Protection.ExtractWorkerName(worker)
 
 	return teamserver, worker, name
 }

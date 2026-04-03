@@ -41,12 +41,14 @@ var buildArgument = &cobra.Command{
 		// Parse the arguments
 		teamserver, _ := cmd.Flags().GetString("teamserver")
 		worker, _ := cmd.Flags().GetString("worker")
-		name, _ := cmd.Flags().GetString("name")
 		customHeader, _ := cmd.Flags().GetString("custom-header")
 		customSecret, _ := cmd.Flags().GetString("custom-secret")
 
+		// Declare variables
+		var name string
+
 		// Call function named BuildManager
-		teamserver, worker, name = Manager.BuildManager(teamserver, worker, name)
+		teamserver, worker, name = Manager.BuildManager(teamserver, worker)
 
 		fmt.Print("[*] Building the configuration files...\n\n")
 
