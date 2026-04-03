@@ -31,6 +31,7 @@ CUSTOM_SECRET="MySecretValue"
 USE_HTTP=false
 CS_LICENSE_KEY=""
 CS_INSTALL_DIR="/opt"
+CS_INSTALL_DIR_SET=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -60,6 +61,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --cs-install-dir)
             CS_INSTALL_DIR="$2"
+            CS_INSTALL_DIR_SET=true
             shift 2
             ;;
         --http)
@@ -77,7 +79,7 @@ done
 # VALIDATION LOGIC
 # -------------------------------
 
-# If --http is used, forbid -f, -p, -l
+# If --http is used, forbid -f, -p, -l, --cs-install-dir
 if [ "$USE_HTTP" = true ]; then
     if [ -n "$KEYSTORE_FILE" ] || \
        [ -n "$KEYSTORE_PASS" ] || \
@@ -159,6 +161,18 @@ echo -e "\n[+] Running Ansible playbook with:"
 echo "Protocol:             $PROTOCOL"
 echo "VM IP:                $VM_IP"
 echo "Username:             $VM_USER"
+
+if [ "$USE_HTTP" = false ]; then
+    echo "Keystore Filename:    $KEYSTORE_FILE"
+    echo "Keystore Password:    $KEYSTORE_PASS"
+    echo "Teamserver Port:      $TEAMSERVER_PORT"
+    echo "Custom Header:        $CUSTOM_HEADER"
+    echo "Custom Header Lower:  $CUSTOM_HEADER_LOWER"
+    echo "Custom Secret:        $CUSTOM_SECRET"
+    echo "CS License Key:          $CS_LICENSE_KEY"
+    echo "CS Install Dir:       $CS_INSTALL_DIR"
+fi
+
 echo ""
 
 # Build command
@@ -178,7 +192,10 @@ fi
 if [ "$USE_HTTP" = false ]; then
     ANSIBLE_CMD="$ANSIBLE_CMD \
       -e keystore_filename='$KEYSTORE_FILE' \
-      -e keystore_password='$KEYSTORE_PASS'"
+      -e keystore_password='$KEYSTORE_PASS' \
+      -e custom_header='$CUSTOM_HEADER' \
+      -e custom_secret='$CUSTOM_SECRET' \
+      -e teamserver_port='$TEAMSERVER_PORT'"
 fi
 
 # Execute
