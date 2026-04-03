@@ -1,15 +1,20 @@
 ---
-- name: Include remove old Docker packages 
-  include_tasks: remove.yml
+- name: Include remove old Docker packages
+  ansible.builtin.include_tasks: remove.yml
+  when: lookup('env', 'PROTOCOL') == 'http'
 
 - name: Include apt update packages
-  include_tasks: update.yml
+  ansible.builtin.include_tasks: update.yml
+  when: lookup('env', 'PROTOCOL') == 'http'
 
 - name: Include Docker configuration
-  include_tasks: conf.yml
+  ansible.builtin.include_tasks: conf.yml
+  when: lookup('env', 'PROTOCOL') == 'http'
 
 - name: Include update apt package cache (after adding Docker repository)
-  include_tasks: update.yml
+  ansible.builtin.include_tasks: update.yml
+  when: lookup('env', 'PROTOCOL') == 'http'
 
 - name: Include Docker packages installation
-  include_tasks: install.yml
+  ansible.builtin.include_tasks: install.yml
+  when: lookup('env', 'PROTOCOL') == 'http'
