@@ -39,3 +39,4 @@
     - tk-dev
     - libffi-dev
     - liblzma-dev
+    - golang
