@@ -300,11 +300,11 @@ echo "VM IP:                $VM_IP"
 echo "Username:             $VM_USER"
 echo "SSH Key:              $SSH_KEY_PATH"
 echo "VM FQDN:              $VM_FQDN"
+echo "Teamserver Port:      $TEAMSERVER_PORT"
 
 if [ "$USE_HTTP" = false ]; then
     echo "Keystore Filename:    $KEYSTORE_FILE"
     echo "Keystore Password:    $KEYSTORE_PASS"
-    echo "Teamserver Port:      $TEAMSERVER_PORT"
     echo "Custom Header:        $CUSTOM_HEADER"
     echo "Custom Header Lower:  $CUSTOM_HEADER_LOWER"
     echo "Custom Secret:        $CUSTOM_SECRET"
