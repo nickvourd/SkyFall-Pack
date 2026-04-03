@@ -1,0 +1,49 @@
+---
+- name: Ensure Cobalt Strike server directory exists
+  ansible.builtin.file:
+    path: "{{ cs_install_dir }}/cobaltstrike/server"
+    state: directory
+    mode: '0755'
+  become: yes
+
+- name: Find malleable.profile under /opt
+  ansible.builtin.find:
+    paths: /opt
+    patterns: "malleable.profile"
+    recurse: yes
+  register: final_malleable_file
+  become: yes
+
+- name: Find keystore file under /opt
+  ansible.builtin.find:
+    paths: /opt
+    patterns: "{{ lookup('env', 'KEYSTORE_FILENAME') }}.store"
+    recurse: yes
+  register: final_keystore_file
+  become: yes
+
+- name: Fail if malleable.profile was not found
+  ansible.builtin.fail:
+    msg: "malleable.profile not found under /opt"
+  when: final_malleable_file.files | length == 0
+
+- name: Fail if keystore file was not found
+  ansible.builtin.fail:
+    msg: "Keystore file {{ lookup('env', 'KEYSTORE_FILENAME') }}.store not found under /opt"
+  when: final_keystore_file.files | length == 0
+
+- name: Copy malleable.profile to Cobalt Strike server directory
+  ansible.builtin.copy:
+    src: "{{ final_malleable_file.files[0].path }}"
+    dest: "{{ cs_install_dir }}/cobaltstrike/server/malleable.profile"
+    remote_src: true
+    mode: '0644'
+  become: yes
+
+- name: Copy keystore to Cobalt Strike server directory
+  ansible.builtin.copy:
+    src: "{{ final_keystore_file.files[0].path }}"
+    dest: "{{ cs_install_dir }}/cobaltstrike/server/{{ final_keystore_file.files[0].path | basename }}"
+    remote_src: true
+    mode: '0644'
+  become: yes
