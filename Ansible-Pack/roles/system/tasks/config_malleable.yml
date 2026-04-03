@@ -25,7 +25,7 @@
   ansible.builtin.replace:
     path: "{{ malleable_profile_search.files[0].path }}"
     regexp: '(^\s*# header this test\s*$)'
-    replace: '\1\nheader "{{ custom_header }}" "{{ custom_secret }}";\n'
+    replace: '\1header "{{ custom_header }}" "{{ custom_secret }}";\n'
   when: malleable_profile_search.files | length > 0
 
 - name: Read keystore values from controller environment
