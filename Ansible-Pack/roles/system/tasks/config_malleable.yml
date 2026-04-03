@@ -27,3 +27,27 @@
     regexp: '(^\s*# header this test\s*$)'
     replace: '\1\nheader "{{ custom_header }}" "{{ custom_secret }}";\n'
   when: malleable_profile_search.files | length > 0
+
+- name: Read keystore values from controller environment
+  ansible.builtin.set_fact:
+    keystore_filename: "{{ lookup('env', 'KEYSTORE_FILENAME') }}"
+    keystore_password: "{{ lookup('env', 'KEYSTORE_PASSWORD') }}"
+
+- name: Fail if KEYSTORE_FILENAME or KEYSTORE_PASSWORD is missing
+  ansible.builtin.fail:
+    msg: "KEYSTORE_FILENAME and KEYSTORE_PASSWORD must be exported before running ansible-playbook"
+  when: keystore_filename | length == 0 or keystore_password | length == 0
+
+- name: Replace keystore filename placeholder
+  ansible.builtin.replace:
+    path: "{{ malleable_profile_search.files[0].path }}"
+    regexp: '<nickvourd\.store>'
+    replace: "{{ keystore_filename }}.store"
+  when: malleable_profile_search.files | length > 0
+
+- name: Replace keystore password placeholder
+  ansible.builtin.replace:
+    path: "{{ malleable_profile_search.files[0].path }}"
+    regexp: '<keystore_password>'
+    replace: "{{ keystore_password }}"
+  when: malleable_profile_search.files | length > 0
