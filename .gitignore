@@ -64,3 +64,4 @@ override.tf.json
 terraform.rc
 
 # Ignore cs tar
+cobaltstrike-dist-linux.tgz
