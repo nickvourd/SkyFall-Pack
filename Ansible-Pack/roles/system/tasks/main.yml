@@ -28,7 +28,11 @@
 
 - name: Deploy Cobalt Strike
   include_tasks: tasks/cobalt_strike.yml
-  when: cs_dist_path is defined
+  when: cs_license_key is defined and cs_license_key | length > 0
 
 - name: Configure Malleable C2 profile
   include_tasks: tasks/config_malleable.yml
+
+- name: Finalize Cobalt Strike server configuration
+  include_tasks: tasks/final_ts.yml
+  when: cs_license_key is defined and cs_license_key | length > 0
