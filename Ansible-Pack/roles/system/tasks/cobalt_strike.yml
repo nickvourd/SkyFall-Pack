@@ -1,0 +1,35 @@
+---
+# cobalt_strike.yml
+# Included by setup.yml only when cs_dist_path is defined (i.e. -l flag was passed).
+# Variables expected:
+#   cs_dist_path   - absolute local path to cobaltstrike-dist-linux.tgz
+#   cs_install_dir - remote destination directory (default: /opt)
+
+- name: Ensure Cobalt Strike install directory exists
+  file:
+    path: "{{ cs_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy Cobalt Strike archive to remote host
+  copy:
+    src: "{{ cs_dist_path }}"
+    dest: "{{ cs_install_dir }}/cobaltstrike-dist-linux.tgz"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Extract Cobalt Strike archive
+  unarchive:
+    src: "{{ cs_install_dir }}/cobaltstrike-dist-linux.tgz"
+    dest: "{{ cs_install_dir }}"
+    remote_src: yes
+    owner: root
+    group: root
+
+- name: Remove Cobalt Strike archive after extraction
+  file:
+    path: "{{ cs_install_dir }}/cobaltstrike-dist-linux.tgz"
+    state: absent
