@@ -47,3 +47,13 @@
     remote_src: true
     mode: '0644'
   become: yes
+
+- name: Run Cobalt Strike updater with license key
+  ansible.builtin.expect:
+    command: ./update
+    chdir: "{{ cs_install_dir }}/cobaltstrike"
+    responses:
+      'Please enter your license key:': "{{ cs_license_key }}"
+    timeout: 200
+  become: yes
+  when: cs_license_key is defined and cs_license_key != ''
