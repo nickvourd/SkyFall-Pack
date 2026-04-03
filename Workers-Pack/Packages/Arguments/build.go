@@ -17,7 +17,7 @@ import (
 var buildArgument = &cobra.Command{
 	// Use defines how the command should be called.
 	Use:          "build",
-	Short:        "Generate and configure wrangler.jsonc, index.js, and nginx's default site configuration",
+	Short:        "Generate and configure wrangler.jsonc and index.js",
 	SilenceUsage: true,
 	Aliases:      []string{"BUILD", "Build"},
 
