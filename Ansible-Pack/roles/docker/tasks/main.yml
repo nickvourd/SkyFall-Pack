@@ -1,20 +1,30 @@
 ---
 - name: Include remove old Docker packages
   ansible.builtin.include_tasks: remove.yml
-  when: lookup('env', 'PROTOCOL') == 'http'
+  when:
+    - lookup('env', 'PROTOCOL') == 'http'
+    - cs_license_key is not defined or cs_license_key | length == 0
 
 - name: Include apt update packages
   ansible.builtin.include_tasks: update.yml
-  when: lookup('env', 'PROTOCOL') == 'http'
+  when:
+    - lookup('env', 'PROTOCOL') == 'http'
+    - cs_license_key is not defined or cs_license_key | length == 0
 
 - name: Include Docker configuration
   ansible.builtin.include_tasks: conf.yml
-  when: lookup('env', 'PROTOCOL') == 'http'
+  when:
+    - lookup('env', 'PROTOCOL') == 'http'
+    - cs_license_key is not defined or cs_license_key | length == 0
 
 - name: Include update apt package cache (after adding Docker repository)
   ansible.builtin.include_tasks: update.yml
-  when: lookup('env', 'PROTOCOL') == 'http'
+  when:
+    - lookup('env', 'PROTOCOL') == 'http'
+    - cs_license_key is not defined or cs_license_key | length == 0
 
 - name: Include Docker packages installation
   ansible.builtin.include_tasks: install.yml
-  when: lookup('env', 'PROTOCOL') == 'http'
+  when:
+    - lookup('env', 'PROTOCOL') == 'http'
+    - cs_license_key is not defined or cs_license_key | length == 0
