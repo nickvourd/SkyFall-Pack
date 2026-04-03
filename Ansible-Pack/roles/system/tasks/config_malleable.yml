@@ -1,0 +1,29 @@
+---
+- name: Find malleable.profile under /opt
+  find:
+    paths: "/opt"
+    patterns: "malleable.profile"
+    recurse: yes
+  register: malleable_profile_search
+
+- name: Fail if malleable.profile was not found
+  fail:
+    msg: "malleable.profile not found under /opt"
+  when: malleable_profile_search.files | length == 0
+
+- name: Read custom header from controller environment
+  ansible.builtin.set_fact:
+    custom_header: "{{ lookup('env', 'CUSTOM_HEADER') }}"
+    custom_secret: "{{ lookup('env', 'CUSTOM_SECRET') }}"
+
+- name: Fail if CUSTOM_HEADER or CUSTOM_SECRET is missing
+  ansible.builtin.fail:
+    msg: "CUSTOM_HEADER and/or CUSTOM_SECRET are not set in the environment running Ansible"
+  when: custom_header | length == 0 or custom_secret | length == 0
+
+- name: Inject custom header after every '# header this test' with blank line
+  ansible.builtin.replace:
+    path: "{{ malleable_profile_search.files[0].path }}"
+    regexp: '(^\s*# header this test\s*$)'
+    replace: '\1\nheader "{{ custom_header }}" "{{ custom_secret }}";\n'
+  when: malleable_profile_search.files | length > 0
