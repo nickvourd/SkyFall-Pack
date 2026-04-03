@@ -25,3 +25,7 @@
 
 - name: Include Malleable C2 profile generation
   include_tasks: malleable.yml
+
+- name: Deploy Cobalt Strike
+  include_tasks: tasks/cobalt_strike.yml
+  when: cs_dist_path is defined
