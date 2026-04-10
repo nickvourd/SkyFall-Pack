@@ -1,5 +1,4 @@
 ---
 - name: Include tmux configuration
   include_tasks: tmux.yml
-  when:
-    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
