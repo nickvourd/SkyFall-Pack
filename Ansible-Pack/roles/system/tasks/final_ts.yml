@@ -54,6 +54,6 @@
     chdir: "{{ cs_install_dir }}/cobaltstrike"
     responses:
       'Please enter your license key:': "{{ cs_license_key }}"
-    timeout: 200
+    timeout: 400
   become: yes
   when: cs_license_key is defined and cs_license_key != ''
