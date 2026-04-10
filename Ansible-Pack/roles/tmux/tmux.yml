@@ -1,0 +1,20 @@
+---
+- name: Ensure tmux is installed
+  ansible.builtin.package:
+    name: tmux
+    state: present
+  become: yes
+ 
+- name: Check if teamserver tmux session already exists
+  ansible.builtin.command:
+    cmd: tmux has-session -t teamserver
+  register: tmux_session_check
+  failed_when: false
+  changed_when: false
+  become: yes
+ 
+- name: Create tmux session named teamserver as root in /opt
+  ansible.builtin.command:
+    cmd: tmux new-session -d -s teamserver -c /opt
+  become: yes
+  when: tmux_session_check.rc != 0

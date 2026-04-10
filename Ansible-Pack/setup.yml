@@ -7,3 +7,4 @@
     - system
     - nginx
     - docker
+    - tmux

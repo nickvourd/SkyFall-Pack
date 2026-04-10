@@ -1,0 +1,3 @@
+---
+- name: Include tmux configuration
+  include_tasks: tmux.yml
