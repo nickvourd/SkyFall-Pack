@@ -13,8 +13,8 @@
   changed_when: false
   become: yes
  
-- name: Create tmux session named teamserver as root in /opt
+- name: Create tmux session named teamserver as root in cs_install_dir
   ansible.builtin.command:
-    cmd: tmux new-session -d -s teamserver -c /opt
+    cmd: tmux new-session -d -s teamserver -c "{{ cs_install_dir }}"
   become: yes
   when: tmux_session_check.rc != 0
