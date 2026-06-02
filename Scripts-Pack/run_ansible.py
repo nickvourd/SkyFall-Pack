@@ -155,6 +155,14 @@ def main():
     env["VM_USER"]      = vm_user
     env["SSH_KEY_PATH"] = ssh_key_path
     env["VM_FQDN"]      = vm_fqdn
+    env["PROTOCOL"]     = protocol
+
+    if not args.http:
+        env["KEYSTORE_FILENAME"] = args.keystore_file
+        env["KEYSTORE_PASSWORD"] = args.keystore_pass
+        env["TEAMSERVER_PORT"]   = args.teamserver_port
+        env["CUSTOM_HEADER"]     = args.custom_header
+        env["CUSTOM_SECRET"]     = args.custom_secret
 
     run_ansible(cmd, cwd=ansible_pack, env=env)
 
