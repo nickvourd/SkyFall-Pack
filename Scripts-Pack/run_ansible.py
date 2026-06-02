@@ -136,6 +136,7 @@ def main():
         "setup.yml", "-vv",
         "-e", f"protocol={protocol}",
         "-e", f"remote_cs_dir={args.remote_cs_dir}",
+        "-e", f"cs_install_dir={args.remote_cs_dir}",
     ]
 
     if args.local_cs_path:
