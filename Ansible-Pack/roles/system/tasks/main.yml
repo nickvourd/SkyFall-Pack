@@ -35,10 +35,7 @@
 
 - name: Deploy Cobalt Strike
   include_tasks: cobalt_strike.yml
-  when:
-    - cs_license_key is defined
-    - cs_license_key | length > 0
-    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
 
 - name: Configure Malleable C2 profile
   include_tasks: config_malleable.yml
@@ -46,7 +43,4 @@
 
 - name: Finalize Cobalt Strike server configuration
   include_tasks: final_ts.yml
-  when:
-    - cs_license_key is defined
-    - cs_license_key | length > 0
-    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
+  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
