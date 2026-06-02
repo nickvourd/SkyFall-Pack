@@ -35,7 +35,10 @@
 
 - name: Deploy Cobalt Strike
   include_tasks: cobalt_strike.yml
-  when: (lookup('env', 'PROTOCOL') | default('')) != 'http'
+  when:
+    - (lookup('env', 'PROTOCOL') | default('')) != 'http'
+    - local_cs_path is defined
+    - local_cs_path | length > 0
 
 - name: Configure Malleable C2 profile
   include_tasks: config_malleable.yml
