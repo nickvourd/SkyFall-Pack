@@ -18,7 +18,7 @@ SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverage
 ![Static Badge](https://img.shields.io/badge/Ansible-green?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Terraform-blue?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Golang-cyan?style=flat&logoSize=auto)
-![Static Badge](https://img.shields.io/badge/Bash-purple?style=flat&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Python-purple?style=flat&logoSize=auto)
 ![Static Badge](https://img.shields.io/badge/Version-2.3%20-red?link=https%3A%2F%2Fgithub.com%2Fnickvourd%2FSkyFall-Pack%2Freleases)
 
 The following list explains the meaning of each pack:
@@ -97,13 +97,13 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 - Azure VM (Team Server)
 
 ```
-./Scripts-Pack/setup.sh -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name> -v <vm_size>
+./Scripts-Pack/setup.py -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name> -v <vm_size>
 ```
 
 - Configure Azure VM (Team Server)
 
 ```
-./Scripts-Pack/run_ansible.sh -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [-l <cs_license>]
+./Scripts-Pack/run_ansible.py -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [--local-cs <absolute_path_of_local_cs_instance>]
 ```
 
 - Cloudflare Worker
