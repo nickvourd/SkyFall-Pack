@@ -24,7 +24,7 @@ SkyFall-Pack is an infrastructure automation pack for C2 operations. It leverage
 The following list explains the meaning of each pack:
 
 - **Workers-Pack**: A Go-based pack that automates the generation of `wrangler.jsonc` and `index.js`.
-- **Scripts-Pack**: Bash scripts that initiate and configure the process.
+- **Scripts-Pack**: Python scripts that initiate and configure the process.
 - **Terraform-Pack**: A Terraform pack that contains all the code for deploying the Azure VM.
 - **Ansible-Pack**: An Ansible pack that contains all the code for configuring the Azure VM.
 
@@ -61,13 +61,13 @@ Install the following dependencies on your local machine.
 For Linux:
 
 ```
-sudo apt install terraform npm ansible golang azure-cli -y
+sudo apt install terraform npm ansible golang azure-cli python3 -y
 ```
 
 For Mac:
 
 ```
-brew install terraform azure-cli node wrangler ansible go
+brew install terraform azure-cli node wrangler ansible go python3
 ```
 
 ## Usage
@@ -97,13 +97,13 @@ git clone https://github.com/nickvourd/SkyFall-Pack.git
 - Azure VM (Team Server)
 
 ```
-./Scripts-Pack/setup.py -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name> -v <vm_size>
+python3 /Scripts-Pack/setup.py -l <location> -u <username> -n <resource_group_name> -s <ssh_filename> -d <dns_name> -v <vm_size>
 ```
 
 - Configure Azure VM (Team Server)
 
 ```
-./Scripts-Pack/run_ansible.py -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [--local-cs <absolute_path_of_local_cs_instance>]
+python3 /Scripts-Pack/run_ansible.py -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [--local-cs <absolute_path_of_local_cs_instance>]
 ```
 
 - Cloudflare Worker
