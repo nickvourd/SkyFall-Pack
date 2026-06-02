@@ -5,148 +5,158 @@ import os
 import subprocess
 import sys
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-TFVARS_PATH = os.path.join(PROJECT_ROOT, "Terraform-Pack", "terraform.tfvars")
-
-VALID_LOCATIONS = [
-    "eastus", "eastus2", "westus", "westus2", "westus3",
-    "northeurope", "westeurope", "southeastasia", "eastasia",
-    "australiaeast", "australiasoutheast", "japaneast", "japanwest",
-]
-
-VALID_SIZES = [
-    "standard_b1ms",
-    "standard_b2s",
-    "standard_b2ms",
-]
+SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 
 
-def check_azure_cli():
-    if subprocess.run(["which", "az"], capture_output=True).returncode != 0:
-        print("\n[!] Error: Azure CLI is not installed\n")
-        print("[*] Please install Azure CLI using one of these methods:")
-        print("    1. Linux (apt): sudo apt install azure-cli -y")
-        print("    2. Linux (yum): sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc")
-        print("    3. MacOS: brew install azure-cli")
-        print("    4. Download from: https://docs.microsoft.com/cli/azure/install-azure-cli")
-        sys.exit(1)
+def convert_header(header: str) -> str:
+    return header.lower().replace("-", "_")
 
-    if subprocess.run(["az", "account", "show"], capture_output=True).returncode != 0:
-        print("\n[!] Error: Not logged in to Azure\n")
-        print("[*] Please login to Azure using:")
-        print("    az login")
+
+def check_ansible():
+    if subprocess.run(["which", "ansible"], capture_output=True).returncode != 0:
+        print("\n[!] Error: Ansible is not installed\n")
+        print("[*] Please install Ansible using one of these methods:")
+        print("    1. Linux (apt): sudo apt install ansible")
+        print("    2. Linux (yum): sudo yum install ansible")
+        print("    3. MacOS:       brew install ansible")
         sys.exit(1)
 
 
-def check_terraform():
-    if subprocess.run(["which", "terraform"], capture_output=True).returncode != 0:
-        print("\n[!] Error: Terraform is not installed\n")
-        print("[*] Please install Terraform using one of these methods:")
-        print("    1. Linux (apt): sudo apt install terraform -y")
-        print("    2. Linux (yum): sudo yum install terraform")
-        print("    3. MacOS: brew install terraform")
-        print("    4. Download from: https://www.terraform.io/downloads")
-        sys.exit(1)
-
-
-def validate_location(value):
-    loc = value.lower()
-    if loc not in VALID_LOCATIONS:
-        print(f"\n[!] Error: Invalid Azure location provided\n")
-        print("[*] Valid locations are:\n")
-        print("\n".join(VALID_LOCATIONS))
-        sys.exit(1)
-    return loc
-
-
-def validate_size(value):
-    size = value.lower()
-    if size not in VALID_SIZES:
-        print(f"\n[!] Error: Invalid Azure VM size provided\n")
-        print("[*] Valid VM sizes are:\n")
-        print("\n".join(VALID_SIZES))
-        sys.exit(1)
-    return size
-
-
-def run(cmd, cwd=None):
-    result = subprocess.run(cmd, cwd=cwd)
-    if result.returncode != 0:
-        sys.exit(result.returncode)
-
-
-def terraform_output(key, cwd):
+def terraform_output(key: str, cwd: str) -> str:
     result = subprocess.run(
         ["terraform", "output", "-raw", key],
         capture_output=True, text=True, cwd=cwd
     )
-    return result.stdout.strip()
+    return result.stdout.strip().strip("\r\n\t\x00")
+
+
+def run_ansible(cmd: list, cwd: str, env: dict):
+    result = subprocess.run(cmd, cwd=cwd, env=env)
+    if result.returncode != 0:
+        sys.exit(result.returncode)
 
 
 def main():
     parser = argparse.ArgumentParser(
-        usage="%(prog)s -l <location> -u <username> -n <prefix> -s <ssh_key> -d <dns> -v <vm_size>",
-        description="Azure infrastructure setup via Terraform"
+        usage="%(prog)s [-f FILE] [-p PASS] [--port PORT] [-c HEADER] [-s SECRET] [--local-cs PATH] [--remote-cs DIR] [--http]"
     )
-    parser.add_argument("-l", "-location",  dest="location",  required=True, help="Azure region location")
-    parser.add_argument("-u", "-username",  dest="username",  required=True, help="VM username")
-    parser.add_argument("-n", "-name",      dest="prefix",    required=True, help="Resource name prefix")
-    parser.add_argument("-s", "-ssh",       dest="ssh_key",   required=True, help="SSH key name")
-    parser.add_argument("-d", "-dns",       dest="dns_name",  required=True, help="DNS name prefix for public IP")
-    parser.add_argument("-v", "-vm",        dest="vm_size",   required=True, help="VM size")
+    parser.add_argument("-f", "--file",          dest="keystore_file",   default="",              help="Keystore filename")
+    parser.add_argument("-p", "--password",      dest="keystore_pass",   default="",              help="Keystore password")
+    parser.add_argument("--port",                dest="teamserver_port", default="8443",           help="Teamserver port (default: 8443)")
+    parser.add_argument("-c", "--custom-header", dest="custom_header",   default="X-CSRF-TOKEN",  help="Custom header name")
+    parser.add_argument("-s", "--custom-secret", dest="custom_secret",   default="MySecretValue", help="Custom secret value")
+    parser.add_argument("--local-cs",            dest="local_cs_path",   default="",              help="Absolute local path to Cobalt Strike Linux archive (.tgz)")
+    parser.add_argument("--remote-cs",           dest="remote_cs_dir",   default="/opt",          help="Remote install directory for Cobalt Strike (default: /opt)")
+    parser.add_argument("--http",                action="store_true",    default=False,           help="Use HTTP mode")
 
     args = parser.parse_args()
 
-    location = validate_location(args.location)
-    vm_size  = validate_size(args.vm_size)
+    # -------------------------------
+    # VALIDATION
+    # -------------------------------
 
-    check_azure_cli()
-    check_terraform()
+    if args.http:
+        conflicts = []
+        if args.keystore_file:              conflicts.append("-f / --file")
+        if args.keystore_pass:              conflicts.append("-p / --password")
+        if args.local_cs_path:              conflicts.append("--local-cs")
+        if args.remote_cs_dir != "/opt":    conflicts.append("--remote-cs")
+        if conflicts:
+            print("\n[!] Error: --http mode cannot be used with:")
+            for c in conflicts:
+                print(f"    {c}")
+            sys.exit(1)
 
-    tf_pack = os.path.join(PROJECT_ROOT, "Terraform-Pack")
-    if not os.path.isdir(tf_pack):
-        print("Error: Terraform-Pack directory not found")
+    if not args.http:
+        if not args.keystore_file or not args.keystore_pass:
+            parser.error("Arguments -f/--file and -p/--password are required in HTTPS mode")
+
+    if args.local_cs_path and not os.path.isfile(args.local_cs_path):
+        print(f"\n[!] Error: --local-cs path does not exist: {args.local_cs_path}")
         sys.exit(1)
 
-    if not os.path.isfile(TFVARS_PATH):
-        print("Error: terraform.tfvars file not found in Terraform-Pack")
+    protocol            = "http" if args.http else "https"
+    custom_header_lower = convert_header(args.custom_header)
+
+    # -------------------------------
+    # CHECK ANSIBLE
+    # -------------------------------
+
+    check_ansible()
+
+    # -------------------------------
+    # TERRAFORM OUTPUT
+    # -------------------------------
+
+    tf_pack      = os.path.join(PROJECT_ROOT, "Terraform-Pack")
+    vm_ip        = terraform_output("public_ip",   tf_pack)
+    vm_user      = terraform_output("username",    tf_pack)
+    ssh_privkey  = terraform_output("ssh_privkey", tf_pack)
+    vm_fqdn      = terraform_output("fqdn",        tf_pack)
+    ssh_key_path = os.path.join(tf_pack, f"{ssh_privkey}.pem")
+
+    # -------------------------------
+    # ANSIBLE
+    # -------------------------------
+
+    ansible_pack = os.path.join(PROJECT_ROOT, "Ansible-Pack")
+    if not os.path.isdir(ansible_pack):
+        print(f"\n[!] Error: Ansible-Pack directory not found at {ansible_pack}")
         sys.exit(1)
 
-    tfvars_content = (
-        f'resource_group_location = "{location}"\n'
-        f'username               = "{args.username}"\n'
-        f'prefix                 = "{args.prefix}"\n'
-        f'ssh_privkey           = "{args.ssh_key}"\n'
-        f'dns_name              = "{args.dns_name}"\n'
-        f'size                  = "{vm_size}"\n'
-    )
+    if not os.path.isfile(ssh_key_path):
+        print(f"\n[!] Error: SSH key not found at {ssh_key_path}")
+        sys.exit(1)
 
-    with open(TFVARS_PATH, "w") as f:
-        f.write(tfvars_content)
+    os.chmod(ssh_key_path, 0o600)
 
-    print("[+] terraform.tfvars updated with:\n")
-    print(f"VM-Location: {location}")
-    print(f"Username:    {args.username}")
-    print(f"Prefix:      {args.prefix}")
-    print(f"SSH Key:     {args.ssh_key}")
-    print(f"DNS Name:    {args.dns_name}")
-    print(f"VM Size:     {vm_size}\n")
+    print("\n[+] Running Ansible playbook with:")
+    print(f"Protocol:             {protocol}")
+    print(f"VM IP:                {vm_ip}")
+    print(f"Username:             {vm_user}")
+    print(f"SSH Key:              {ssh_key_path}")
+    print(f"VM FQDN:              {vm_fqdn}")
+    print(f"Teamserver Port:      {args.teamserver_port}")
 
-    print("[*] Initializing Terraform...\n")
-    run(["terraform", "init"], cwd=tf_pack)
-
-    print("\n[*] Planning Terraform deployment...\n")
-    run(["terraform", "plan"], cwd=tf_pack)
-
-    print("\n[*] Applying Terraform configuration...\n")
-    run(["terraform", "apply", "-auto-approve"], cwd=tf_pack)
-
-    print("\n[*] Getting connection information...\n")
-    print(f"[*] Connection String: {terraform_output('connection_string', tf_pack)}")
-    print(f"[*] FQDN:              {terraform_output('fqdn', tf_pack)}")
-    print(f"[*] Public IP:         {terraform_output('public_ip', tf_pack)}")
-    print(f"[*] Username:          {terraform_output('username', tf_pack)}")
+    if not args.http:
+        print(f"Keystore Filename:    {args.keystore_file}")
+        print(f"Keystore Password:    {args.keystore_pass}")
+        print(f"Custom Header:        {args.custom_header}")
+        print(f"Custom Header Lower:  {custom_header_lower}")
+        print(f"Custom Secret:        {args.custom_secret}")
+        if args.local_cs_path:
+            print(f"Local CS Path:        {args.local_cs_path}")
+            print(f"Remote CS Dir:        {args.remote_cs_dir}")
     print()
+
+    cmd = [
+        "ansible-playbook",
+        "-i", "inventory/hosts.yml",
+        "setup.yml", "-vv",
+        "-e", f"protocol={protocol}",
+        "-e", f"remote_cs_dir={args.remote_cs_dir}",
+    ]
+
+    if args.local_cs_path:
+        cmd += ["-e", f"local_cs_path={args.local_cs_path}"]
+
+    if not args.http:
+        cmd += [
+            "-e", f"keystore_filename={args.keystore_file}",
+            "-e", f"keystore_password={args.keystore_pass}",
+            "-e", f"custom_header={args.custom_header}",
+            "-e", f"custom_secret={args.custom_secret}",
+            "-e", f"teamserver_port={args.teamserver_port}",
+        ]
+
+    env = os.environ.copy()
+    env["VM_IP"]        = vm_ip
+    env["VM_USER"]      = vm_user
+    env["SSH_KEY_PATH"] = ssh_key_path
+    env["VM_FQDN"]      = vm_fqdn
+
+    run_ansible(cmd, cwd=ansible_pack, env=env)
 
 
 if __name__ == "__main__":
