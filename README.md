@@ -103,7 +103,7 @@ python3 /Scripts-Pack/setup.py -l <location> -u <username> -n <resource_group_na
 - Configure Azure VM (Team Server)
 
 ```
-python3 /Scripts-Pack/run_ansible.py -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [--local-cs <absolute_path_of_local_cs_instance>]
+sudo -E python3 /Scripts-Pack/run_ansible.py -f <keystore_filename> -p <password> -c <custom_header> -s <secret_value> [--http] [--local-cs <absolute_path_of_local_cs_instance>]
 ```
 
 - Cloudflare Worker
