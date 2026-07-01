@@ -1,6 +1,6 @@
 # SkyFall-Pack
 
-Your Skyfall Infrastructure Pack.
+Your Skyfall Infrastructure Pack
 
 <p align="center">
   <img width="500" height="400" src="/Pictures/logo2.png"><br /><br />
