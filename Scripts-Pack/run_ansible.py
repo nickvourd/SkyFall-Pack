@@ -123,7 +123,7 @@ def main():
         print(f"Keystore Filename:    {args.keystore_file}")
         print(f"Keystore Password:    {args.keystore_pass}")
         print(f"Custom Header:        {args.custom_header}")
-        print(f"Custom Header Lower:  {custom_header_lower}")
+        print(f"Custom Header Lower:  {args.custom_header_lower}")
         print(f"Custom Secret:        {args.custom_secret}")
         if args.local_cs_path:
             print(f"Local CS Path:        {args.local_cs_path}")
@@ -147,6 +147,7 @@ def main():
             "-e", f"keystore_filename={args.keystore_file}",
             "-e", f"keystore_password={args.keystore_pass}",
             "-e", f"custom_header={args.custom_header}",
+            "-e", f"custom_header_lower={args.custom_header_lower}",
             "-e", f"custom_secret={args.custom_secret}",
             "-e", f"teamserver_port={args.teamserver_port}",
         ]
@@ -159,11 +160,12 @@ def main():
     env["PROTOCOL"]     = protocol
 
     if not args.http:
-        env["KEYSTORE_FILENAME"] = args.keystore_file
-        env["KEYSTORE_PASSWORD"] = args.keystore_pass
-        env["TEAMSERVER_PORT"]   = args.teamserver_port
-        env["CUSTOM_HEADER"]     = args.custom_header
-        env["CUSTOM_SECRET"]     = args.custom_secret
+        env["KEYSTORE_FILENAME"]   = args.keystore_file
+        env["KEYSTORE_PASSWORD"]   = args.keystore_pass
+        env["TEAMSERVER_PORT"]     = args.teamserver_port
+        env["CUSTOM_HEADER"]       = args.custom_header
+        env["CUSTOM_HEADER_LOWER"] = args.custom_header_lower
+        env["CUSTOM_SECRET"]       = args.custom_secret
 
     run_ansible(cmd, cwd=ansible_pack, env=env)
 
